@@ -14,7 +14,7 @@
 
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="me.toddpickell.giddygoat" >
+        android:targetPackage="me.toddpickell.baristalog" >
     </instrumentation>
     
     <application
