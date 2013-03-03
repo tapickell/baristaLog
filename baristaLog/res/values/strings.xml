@@ -4,5 +4,32 @@
     <string name="app_name">BaristaLog</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
+    <string name="label_name">Label Name</string>
+    <string name="label_phone">Label Phone</string>
+    <string name="label_email">Label Email</string>
+    <string name="label_street">Label Street</string>
+    <string name="label_city">Label City</string>
+    <string name="address">Address</string>
+    <string name="hint_name">Hint Name</string>
+    <string name="hint_phone">Hint Phone</string>
+    <string name="hint_email">Hint Email</string>
+    <string name="hint_street">Hint Street</string>
+    <string name="hint_city">Hint City</string>
+    <string name="button_save_contact">Button Save Contact</string>
+    <string name="device_spinner">device_spinner</string>
+    <string name="pre_text_view">Pre</string>
+    <string name="bloom_text_view">Bloom</string>
+    <string name="brew_text_view">Brew</string>
+    <string name="steep_text_view">Steep</string>
+    <string name="plunge_text_view">Plunge</string>
+    
 
+    <string-array name="devices_array">
+        <item>Aeropress</item>
+        <item>Chemex</item>
+        <item>Clever</item>
+        <item>Espresso</item>
+        <item>French Press</item>
+        <item>Pour Over</item>
+    </string-array>
 </resources>
