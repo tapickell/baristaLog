@@ -1,5 +1,9 @@
 package me.toddpickell.baristalog;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -31,6 +35,12 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 	private TextView total_text_view;
 	private TextView total_text_timer;
 	private Button start_stop_button;
+	
+	private String preString;
+	private String bloomString;
+	private String brewString;
+	private List<String> subTitles;
+	private List<Integer> subTimes;
 	
 	private Integer pre;
 	private Integer bloom;
@@ -169,6 +179,13 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		pre = 10;
 		bloom = 20;
 		total = pre + bloom;
+		mSubTime = pre;
+		preString = getResources().getString(R.string.steep_text_view);
+		bloomString = getResources().getString(R.string.plunge_text_view);
+		subTitles = new ArrayList<String>();
+		subTitles.add(bloomString);
+		subTimes = new ArrayList<Integer>();
+		subTimes.add(bloom);
 		pre_text_view.setText(R.string.steep_text_view);
 		bloom_text_view.setText(R.string.plunge_text_view);
 		brew_text_view.setText("");
@@ -188,6 +205,16 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		bloom = 30;
 		brew = 180;
 		total = pre + bloom + brew;
+		mSubTime = pre;
+		preString = getResources().getString(R.string.pre_text_view);
+		bloomString = getResources().getString(R.string.bloom_text_view);
+		brewString = getResources().getString(R.string.brew_text_view);
+		subTitles = new ArrayList<String>();
+		subTitles.add(bloomString);
+		subTitles.add(brewString);
+		subTimes = new ArrayList<Integer>();
+		subTimes.add(bloom);
+		subTimes.add(brew);
 		pre_text_view.setText(R.string.pre_text_view);
 		bloom_text_view.setText(R.string.bloom_text_view);
 		brew_text_view.setText(R.string.brew_text_view);
@@ -267,10 +294,27 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 				mTotalTime += current - mStart;
 			}
             mStart = current;
-            Log.d("DEBUGGERY", "Current: " + current/1000 + " TotalTime: " + mTotalTime + " mStart: " + mStart/1000 + " Total: " + ((mTotalTime/1000) + total));
+//            Log.d("DEBUGGERY", "Current: " + current/1000 + " TotalTime: " + mTotalTime + " mStart: " + mStart/1000 + " Total: " + ((mTotalTime/1000) + total));
+            Log.d("DEBUGGERY", "mSubTime: " + ((mTotalTime/1000) + mSubTime));
 
-
-//            sub_text_timer.setText(DateUtils.formatElapsedTime(0));
+            if (((mTotalTime/1000) + mSubTime) <= 0) {
+				//change sub title and time if there is one
+            	if (!subTitles.isEmpty()) {
+					sub_text_view.setText(subTitles.get(0));
+					subTitles.remove(0);
+					if (!subTimes.isEmpty()) {
+						Log.d("DEBUGGERY", "mSubTime before change:" + mSubTime);
+						mSubTime = subTimes.get(0);
+						subTimes.remove(0);
+						Log.d("DEBUGGERY", "mSubTime after change:" + mSubTime);
+						Log.d("DEGUGGERY", "mTotalTime/1000: " + (mTotalTime/1000));
+						mSubTime -= (mTotalTime/1000);
+						Log.d("DEBUGGERY", "mSubTime after change:" + mSubTime);
+						Log.d("DEBUGGERY", "mSubTime inside is: " + ((mTotalTime/1000) + mSubTime));
+					}
+				}
+			}
+            sub_text_timer.setText(DateUtils.formatElapsedTime((mTotalTime/1000) + mSubTime));
             total_text_timer.setText(DateUtils.formatElapsedTime((mTotalTime/1000) + total));
 
             if (((mTotalTime/1000) + total) == 0 && countdown) {
