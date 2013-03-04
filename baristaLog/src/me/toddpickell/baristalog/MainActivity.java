@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 	private TextView sub_text_timer;
 	private TextView total_text_view;
 	private TextView total_text_timer;
+	private Button start_stop_button;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 		sub_text_timer = (TextView) findViewById(R.id.sub_text_timer);
 		total_text_view = (TextView) findViewById(R.id.total_text_view);
 		total_text_timer = (TextView) findViewById(R.id.total_text_timer);
+		start_stop_button = (Button) findViewById(R.id.start_stop_button);
 		
 		//setup array adapter for spinner
 		spinner = (Spinner) findViewById(R.id.devices_spinner);
@@ -61,7 +64,6 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 		//change timer state according to device selected
-		//not sure if starts from zero or one on position
 		switch (pos) {
 		case 0:
 			setStateForAeropress();
@@ -108,6 +110,11 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 		total_text_timer.setText(DateUtils.formatElapsedTime(pre + bloom + brew));
 	}
 	
+	private void setupButtonForDevice() {
+		start_stop_button.setText("START");
+		start_stop_button.setBackgroundColor(getResources().getColor(R.color.GREEN));
+	}
+	
 	private void setStateForAeropress() {
 		Integer pre = 10;
 		Integer bloom = 20;
@@ -121,7 +128,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 		brew_text_timer.setText("");
 		sub_text_timer.setText(DateUtils.formatElapsedTime(pre));
 		total_text_timer.setText(DateUtils.formatElapsedTime((pre + bloom)));
-		
+		setupButtonForDevice();
 	}
 	
 	private void setStateForChemex() {
@@ -134,6 +141,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 		sub_text_view.setText(R.string.pre_text_view);
 		total_text_view.setText("Total");
 		setTimesForDeviceState(pre, bloom, brew);
+		setupButtonForDevice();
 	}
 	
 	private void setStateForClever() {
@@ -146,6 +154,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 		sub_text_view.setText(R.string.pre_text_view);
 		total_text_view.setText("Total");
 		setTimesForDeviceState(pre, bloom, brew);
+		setupButtonForDevice();
 	}
 	
 	private void setStateForEspresso() {
@@ -159,6 +168,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 		brew_text_timer.setText("");
 		sub_text_timer.setText("");
 		total_text_timer.setText(DateUtils.formatElapsedTime(0));
+		setupButtonForDevice();
 	}
 	
 	private void setStateForFrenchPress() {
@@ -171,6 +181,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 		sub_text_view.setText(R.string.bloom_text_view);
 		total_text_view.setText("Total");
 		setTimesForDeviceState(pre, bloom, brew);
+		setupButtonForDevice();
 	}
 	
 	private void setStateForPourOver() {
@@ -183,6 +194,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 		sub_text_view.setText(R.string.pre_text_view);
 		total_text_view.setText("Total");
 		setTimesForDeviceState(pre, bloom, brew);
+		setupButtonForDevice();
 	}
 
 }

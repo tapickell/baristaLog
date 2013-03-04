@@ -87,7 +87,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="40dp"
-            android:textSize="25sp"
+            android:textSize="30sp"
             android:contentDescription="@string/sub_text_view" />
 
         <TextView
@@ -95,7 +95,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="40dp"
-            android:textSize="25sp"
+            android:textSize="30sp"
             android:contentDescription="@string/sub_text_timer" />
         
     </LinearLayout>
@@ -113,7 +113,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="40dp"
-            android:textSize="25sp"
+            android:textSize="30sp"
             android:contentDescription="@string/total_text_view" />
 
         <TextView
@@ -121,12 +121,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="40dp"
-            android:textSize="25sp"
+            android:textSize="30sp"
             android:contentDescription="@string/total_text_timer" />
         
     </LinearLayout>
     
+    <LinearLayout
+        android:id="@+id/start_stop_button_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/total_timer_container"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal" >
     
+        <Button
+            android:id="@+id/start_stop_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:textSize="40sp"
+            android:layout_margin="30dp" />
+            
+        
+    </LinearLayout>
     
 
 </RelativeLayout>
+
+
+    
+    
+    
+    
+    
+    
+    
+    
