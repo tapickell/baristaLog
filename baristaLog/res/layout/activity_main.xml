@@ -4,46 +4,129 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
-    <Spinner 
+    <Spinner
         android:id="@+id/devices_spinner"
-        android:contentDescription="@string/device_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:layout_centerHorizontal="true" />
-    
-    <TextView
-        android:id="@+id/pre_text_view"
-        android:contentDescription="@string/pre_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:layout_below="@+id/devices_spinner" 
-        android:layout_margin="10sp" />
-    
-    <TextView
-        android:id="@+id/bloom_text_view"
-        android:contentDescription="@string/bloom_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:layout_toRightOf="@+id/pre_text_view" 
-        android:layout_below="@+id/devices_spinner"
-        android:layout_margin="10sp" />
-    
-    <TextView
-        android:id="@+id/brew_text_view"
-        android:contentDescription="@string/brew_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:layout_toRightOf="@+id/bloom_text_view" 
-        android:layout_below="@+id/devices_spinner"
-        android:layout_margin="10sp" />
-    
-    <TextView
-        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="@string/hello_world" 
-        android:layout_margin="10sp" />
+        android:contentDescription="@string/device_spinner" />
+
+    <LinearLayout
+        android:id="@+id/time_label_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/devices_spinner"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/pre_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:contentDescription="@string/pre_text_view" />
+
+        <TextView
+            android:id="@+id/bloom_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:contentDescription="@string/bloom_text_view" />
+
+        <TextView
+            android:id="@+id/brew_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:contentDescription="@string/brew_text_view" />
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/time_timer_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/time_label_container"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal" >
+        
+        <TextView
+            android:id="@+id/pre_text_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:contentDescription="@string/pre_text_timer" />
+
+        <TextView
+            android:id="@+id/bloom_text_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:contentDescription="@string/bloom_text_timer" />
+
+        <TextView
+            android:id="@+id/brew_text_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:contentDescription="@string/brew_text_timer" />
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/sub_timer_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/time_timer_container"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal" >
+    
+        <TextView
+            android:id="@+id/sub_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="40dp"
+            android:textSize="25sp"
+            android:contentDescription="@string/sub_text_view" />
+
+        <TextView
+            android:id="@+id/sub_text_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="40dp"
+            android:textSize="25sp"
+            android:contentDescription="@string/sub_text_timer" />
+        
+    </LinearLayout>
+    
+    <LinearLayout
+        android:id="@+id/total_timer_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sub_timer_container"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal" >
+    
+        <TextView
+            android:id="@+id/total_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="40dp"
+            android:textSize="25sp"
+            android:contentDescription="@string/total_text_view" />
+
+        <TextView
+            android:id="@+id/total_text_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="40dp"
+            android:textSize="25sp"
+            android:contentDescription="@string/total_text_timer" />
+        
+    </LinearLayout>
+    
+    
+    
 
 </RelativeLayout>

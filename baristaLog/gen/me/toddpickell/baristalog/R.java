@@ -18,35 +18,45 @@ public final class R {
         public static final int textview_border=0x7f020001;
     }
     public static final class id {
-        public static final int addressTextView=0x7f080009;
-        public static final int bloom_text_view=0x7f080002;
-        public static final int brew_text_view=0x7f080003;
-        public static final int cityEditText=0x7f08000b;
-        public static final int cityLabelTextView=0x7f08001a;
-        public static final int cityTableRow=0x7f080019;
-        public static final int cityTextView=0x7f08001b;
+        public static final int addressTextView=0x7f080013;
+        public static final int bloom_text_timer=0x7f080007;
+        public static final int bloom_text_view=0x7f080003;
+        public static final int brew_text_timer=0x7f080008;
+        public static final int brew_text_view=0x7f080004;
+        public static final int cityEditText=0x7f080015;
+        public static final int cityLabelTextView=0x7f080024;
+        public static final int cityTableRow=0x7f080023;
+        public static final int cityTextView=0x7f080025;
         public static final int devices_spinner=0x7f080000;
-        public static final int emailEditText=0x7f080008;
-        public static final int emailLabelTextView=0x7f080014;
-        public static final int emailTableRow=0x7f080013;
-        public static final int emailTextView=0x7f080015;
-        public static final int linearLayout=0x7f080005;
-        public static final int menu_settings=0x7f08001c;
-        public static final int nameEditText=0x7f080006;
-        public static final int nameLabelTextView=0x7f08000e;
-        public static final int nameTableRow=0x7f08000d;
-        public static final int nameTextView=0x7f08000f;
-        public static final int phoneEditText=0x7f080007;
-        public static final int phoneLabelTextView=0x7f080011;
-        public static final int phoneTableRow=0x7f080010;
-        public static final int phoneTextView=0x7f080012;
-        public static final int pre_text_view=0x7f080001;
-        public static final int saveContactButton=0x7f08000c;
-        public static final int streetEditText=0x7f08000a;
-        public static final int streetLabelTextView=0x7f080017;
-        public static final int streetTableRow=0x7f080016;
-        public static final int streetTextView=0x7f080018;
-        public static final int textView1=0x7f080004;
+        public static final int emailEditText=0x7f080012;
+        public static final int emailLabelTextView=0x7f08001e;
+        public static final int emailTableRow=0x7f08001d;
+        public static final int emailTextView=0x7f08001f;
+        public static final int linearLayout=0x7f08000f;
+        public static final int menu_settings=0x7f080026;
+        public static final int nameEditText=0x7f080010;
+        public static final int nameLabelTextView=0x7f080018;
+        public static final int nameTableRow=0x7f080017;
+        public static final int nameTextView=0x7f080019;
+        public static final int phoneEditText=0x7f080011;
+        public static final int phoneLabelTextView=0x7f08001b;
+        public static final int phoneTableRow=0x7f08001a;
+        public static final int phoneTextView=0x7f08001c;
+        public static final int pre_text_timer=0x7f080006;
+        public static final int pre_text_view=0x7f080002;
+        public static final int saveContactButton=0x7f080016;
+        public static final int streetEditText=0x7f080014;
+        public static final int streetLabelTextView=0x7f080021;
+        public static final int streetTableRow=0x7f080020;
+        public static final int streetTextView=0x7f080022;
+        public static final int sub_text_timer=0x7f08000b;
+        public static final int sub_text_view=0x7f08000a;
+        public static final int sub_timer_container=0x7f080009;
+        public static final int time_label_container=0x7f080001;
+        public static final int time_timer_container=0x7f080005;
+        public static final int total_text_timer=0x7f08000e;
+        public static final int total_text_view=0x7f08000d;
+        public static final int total_timer_container=0x7f08000c;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -59,7 +69,9 @@ public final class R {
     public static final class string {
         public static final int address=0x7f040008;
         public static final int app_name=0x7f040000;
+        public static final int bloom_text_timer=0x7f040016;
         public static final int bloom_text_view=0x7f040011;
+        public static final int brew_text_timer=0x7f040017;
         public static final int brew_text_view=0x7f040012;
         public static final int button_save_contact=0x7f04000e;
         public static final int device_spinner=0x7f04000f;
@@ -76,8 +88,13 @@ public final class R {
         public static final int label_street=0x7f040006;
         public static final int menu_settings=0x7f040002;
         public static final int plunge_text_view=0x7f040014;
+        public static final int pre_text_timer=0x7f040015;
         public static final int pre_text_view=0x7f040010;
         public static final int steep_text_view=0x7f040013;
+        public static final int sub_text_timer=0x7f040019;
+        public static final int sub_text_view=0x7f040018;
+        public static final int total_text_timer=0x7f04001b;
+        public static final int total_text_view=0x7f04001a;
     }
     public static final class style {
         /** 

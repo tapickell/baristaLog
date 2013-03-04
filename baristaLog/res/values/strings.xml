@@ -22,6 +22,13 @@
     <string name="brew_text_view">Brew</string>
     <string name="steep_text_view">Steep</string>
     <string name="plunge_text_view">Plunge</string>
+    <string name="pre_text_timer">pre_text_timer</string>
+    <string name="bloom_text_timer">bloom_text_timer</string>
+    <string name="brew_text_timer">brew_text_timer</string>
+    <string name="sub_text_view">sub_text_view</string>
+    <string name="sub_text_timer">sub_text_timer</string>
+    <string name="total_text_view">total_text_view</string>
+    <string name="total_text_timer">total_text_timer</string>
     
 
     <string-array name="devices_array">

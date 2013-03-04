@@ -4,6 +4,7 @@ package me.toddpickell.baristalog;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,20 +16,32 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements OnItemSelectedListener {
 	
 	private Spinner spinner;
-	private TextView textView1;
 	private TextView pre_text_view;
 	private TextView bloom_text_view;
 	private TextView brew_text_view;
+	private TextView pre_text_timer;
+	private TextView bloom_text_timer;
+	private TextView brew_text_timer;
+	private TextView sub_text_view;
+	private TextView sub_text_timer;
+	private TextView total_text_view;
+	private TextView total_text_timer;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		textView1 = (TextView) findViewById(R.id.textView1);
 		pre_text_view = (TextView) findViewById(R.id.pre_text_view);
 		bloom_text_view = (TextView) findViewById(R.id.bloom_text_view);
 		brew_text_view = (TextView) findViewById(R.id.brew_text_view);
+		pre_text_timer = (TextView) findViewById(R.id.pre_text_timer);
+		bloom_text_timer = (TextView) findViewById(R.id.bloom_text_timer);
+		brew_text_timer = (TextView) findViewById(R.id.brew_text_timer);
+		sub_text_view = (TextView) findViewById(R.id.sub_text_view);
+		sub_text_timer = (TextView) findViewById(R.id.sub_text_timer);
+		total_text_view = (TextView) findViewById(R.id.total_text_view);
+		total_text_timer = (TextView) findViewById(R.id.total_text_timer);
 		
 		//setup array adapter for spinner
 		spinner = (Spinner) findViewById(R.id.devices_spinner);
@@ -86,46 +99,90 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 		
 	}
 	
-	private void setTextFieldNormal() {
-		pre_text_view.setText(R.string.pre_text_view);
-		bloom_text_view.setText(R.string.bloom_text_view);
-		brew_text_view.setText(R.string.brew_text_view);
+	//will pull times from preferences file later
+	private void setTimesForDeviceState(Integer pre, Integer bloom, Integer brew) {
+		pre_text_timer.setText(DateUtils.formatElapsedTime(pre));
+		bloom_text_timer.setText(DateUtils.formatElapsedTime(bloom));
+		brew_text_timer.setText(DateUtils.formatElapsedTime(brew));
+		sub_text_timer.setText(DateUtils.formatElapsedTime(pre));
+		total_text_timer.setText(DateUtils.formatElapsedTime(pre + bloom + brew));
 	}
 	
 	private void setStateForAeropress() {
-		textView1.setText("Aeropress");
+		Integer pre = 10;
+		Integer bloom = 20;
 		pre_text_view.setText(R.string.steep_text_view);
 		bloom_text_view.setText(R.string.plunge_text_view);
-		brew_text_view.setText("");		
+		brew_text_view.setText("");
+		sub_text_view.setText(R.string.steep_text_view);
+		total_text_view.setText("Total");
+		pre_text_timer.setText(DateUtils.formatElapsedTime(pre));
+		bloom_text_timer.setText(DateUtils.formatElapsedTime(bloom));
+		brew_text_timer.setText("");
+		sub_text_timer.setText(DateUtils.formatElapsedTime(pre));
+		total_text_timer.setText(DateUtils.formatElapsedTime((pre + bloom)));
+		
 	}
 	
 	private void setStateForChemex() {
-		textView1.setText("Chemex");
-		setTextFieldNormal();
+		Integer pre = 30;
+		Integer bloom = 30;
+		Integer brew = 180;
+		pre_text_view.setText(R.string.pre_text_view);
+		bloom_text_view.setText(R.string.bloom_text_view);
+		brew_text_view.setText(R.string.brew_text_view);
+		sub_text_view.setText(R.string.pre_text_view);
+		total_text_view.setText("Total");
+		setTimesForDeviceState(pre, bloom, brew);
 	}
 	
 	private void setStateForClever() {
-		textView1.setText("Clever");
-		setTextFieldNormal();
+		Integer pre = 30;
+		Integer bloom = 30;
+		Integer brew = 180;
+		pre_text_view.setText(R.string.pre_text_view);
+		bloom_text_view.setText(R.string.bloom_text_view);
+		brew_text_view.setText(R.string.brew_text_view);
+		sub_text_view.setText(R.string.pre_text_view);
+		total_text_view.setText("Total");
+		setTimesForDeviceState(pre, bloom, brew);
 	}
 	
 	private void setStateForEspresso() {
-		textView1.setText("Espresso");
 		pre_text_view.setText("");
 		bloom_text_view.setText("");
 		brew_text_view.setText("");
+		sub_text_view.setText("");
+		total_text_view.setText("Total");
+		pre_text_timer.setText("");
+		bloom_text_timer.setText("");
+		brew_text_timer.setText("");
+		sub_text_timer.setText("");
+		total_text_timer.setText(DateUtils.formatElapsedTime(0));
 	}
 	
 	private void setStateForFrenchPress() {
-		textView1.setText("French Press");
+		Integer pre = 30;
+		Integer bloom = 180;
+		Integer brew = 30;
 		pre_text_view.setText(R.string.bloom_text_view);
 		bloom_text_view.setText(R.string.brew_text_view);
 		brew_text_view.setText(R.string.plunge_text_view);
+		sub_text_view.setText(R.string.bloom_text_view);
+		total_text_view.setText("Total");
+		setTimesForDeviceState(pre, bloom, brew);
 	}
 	
 	private void setStateForPourOver() {
-		textView1.setText("Pour Over");
-		setTextFieldNormal();
+		Integer pre = 30;
+		Integer bloom = 30;
+		Integer brew = 90;
+		pre_text_view.setText(R.string.pre_text_view);
+		bloom_text_view.setText(R.string.bloom_text_view);
+		brew_text_view.setText(R.string.brew_text_view);
+		sub_text_view.setText(R.string.pre_text_view);
+		total_text_view.setText("Total");
+		setTimesForDeviceState(pre, bloom, brew);
 	}
 
 }
