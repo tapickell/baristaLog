@@ -1,12 +1,15 @@
 package me.toddpickell.baristalog;
 
-
-
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.app.Activity;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
@@ -14,7 +17,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-public class MainActivity extends Activity implements OnItemSelectedListener {
+public class MainActivity extends Activity implements OnItemSelectedListener, OnClickListener {
 	
 	private Spinner spinner;
 	private TextView pre_text_view;
@@ -28,6 +31,16 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 	private TextView total_text_view;
 	private TextView total_text_timer;
 	private Button start_stop_button;
+	
+	private Integer pre;
+	private Integer bloom;
+	private Integer brew;
+	private Integer total;
+	private long mStart = 0;
+    private long mTotalTime = 0;
+    private long mSubTime = 0;
+    
+    private Boolean countdown;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +59,40 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 		total_text_timer = (TextView) findViewById(R.id.total_text_timer);
 		start_stop_button = (Button) findViewById(R.id.start_stop_button);
 		
+		start_stop_button.setOnClickListener(this);
+		
 		//setup array adapter for spinner
 		spinner = (Spinner) findViewById(R.id.devices_spinner);
 		spinner.setOnItemSelectedListener(this);
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.devices_array, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
+	}
+
+	@Override
+	public void onClick(View view) {
+		if (timerIsStopped()) {
+			startTimer();
+		} else {
+			stopTimer();
+		}
+	}
+	
+	private void stopTimer() {
+		mHandler.removeMessages(0);	
+		mTotalTime = 0;
+		setButtonToStart();
+	}
+
+	private void startTimer() {
+		mStart = System.currentTimeMillis();
+        mHandler.removeMessages(0);
+        mHandler.sendEmptyMessage(0);	
+        setButtonToStop();
+	}
+
+	private boolean timerIsStopped() {
+		return !mHandler.hasMessages(0);
 	}
 
 	@Override
@@ -63,6 +104,9 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+		if (!timerIsStopped()) {
+			stopTimer();
+		}
 		//change timer state according to device selected
 		switch (pos) {
 		case 0:
@@ -110,14 +154,21 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 		total_text_timer.setText(DateUtils.formatElapsedTime(pre + bloom + brew));
 	}
 	
-	private void setupButtonForDevice() {
+	private void setButtonToStop() {
+		start_stop_button.setText("STOP");
+		start_stop_button.setBackgroundColor(getResources().getColor(R.color.RED));
+	}
+	
+	private void setButtonToStart() {
 		start_stop_button.setText("START");
 		start_stop_button.setBackgroundColor(getResources().getColor(R.color.GREEN));
 	}
 	
 	private void setStateForAeropress() {
-		Integer pre = 10;
-		Integer bloom = 20;
+		countdown = true;
+		pre = 10;
+		bloom = 20;
+		total = pre + bloom;
 		pre_text_view.setText(R.string.steep_text_view);
 		bloom_text_view.setText(R.string.plunge_text_view);
 		brew_text_view.setText("");
@@ -127,37 +178,43 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 		bloom_text_timer.setText(DateUtils.formatElapsedTime(bloom));
 		brew_text_timer.setText("");
 		sub_text_timer.setText(DateUtils.formatElapsedTime(pre));
-		total_text_timer.setText(DateUtils.formatElapsedTime((pre + bloom)));
-		setupButtonForDevice();
+		total_text_timer.setText(DateUtils.formatElapsedTime(total));
+		setButtonToStart();
 	}
 	
 	private void setStateForChemex() {
-		Integer pre = 30;
-		Integer bloom = 30;
-		Integer brew = 180;
+		countdown = true;
+		pre = 30;
+		bloom = 30;
+		brew = 180;
+		total = pre + bloom + brew;
 		pre_text_view.setText(R.string.pre_text_view);
 		bloom_text_view.setText(R.string.bloom_text_view);
 		brew_text_view.setText(R.string.brew_text_view);
 		sub_text_view.setText(R.string.pre_text_view);
 		total_text_view.setText("Total");
 		setTimesForDeviceState(pre, bloom, brew);
-		setupButtonForDevice();
+		setButtonToStart();
 	}
 	
 	private void setStateForClever() {
-		Integer pre = 30;
-		Integer bloom = 30;
-		Integer brew = 180;
+		countdown = true;
+		pre = 30;
+		bloom = 30;
+		brew = 180;
+		total = pre + bloom + brew;
 		pre_text_view.setText(R.string.pre_text_view);
 		bloom_text_view.setText(R.string.bloom_text_view);
 		brew_text_view.setText(R.string.brew_text_view);
 		sub_text_view.setText(R.string.pre_text_view);
 		total_text_view.setText("Total");
 		setTimesForDeviceState(pre, bloom, brew);
-		setupButtonForDevice();
+		setButtonToStart();
 	}
 	
 	private void setStateForEspresso() {
+		countdown = false;
+		total = 0;
 		pre_text_view.setText("");
 		bloom_text_view.setText("");
 		brew_text_view.setText("");
@@ -168,33 +225,61 @@ public class MainActivity extends Activity implements OnItemSelectedListener {
 		brew_text_timer.setText("");
 		sub_text_timer.setText("");
 		total_text_timer.setText(DateUtils.formatElapsedTime(0));
-		setupButtonForDevice();
+		setButtonToStart();
 	}
 	
 	private void setStateForFrenchPress() {
-		Integer pre = 30;
-		Integer bloom = 180;
-		Integer brew = 30;
+		countdown = true;
+		pre = 30;
+		bloom = 180;
+		brew = 30;
+		total = pre + bloom + brew;
 		pre_text_view.setText(R.string.bloom_text_view);
 		bloom_text_view.setText(R.string.brew_text_view);
 		brew_text_view.setText(R.string.plunge_text_view);
 		sub_text_view.setText(R.string.bloom_text_view);
 		total_text_view.setText("Total");
 		setTimesForDeviceState(pre, bloom, brew);
-		setupButtonForDevice();
+		setButtonToStart();
 	}
 	
 	private void setStateForPourOver() {
-		Integer pre = 30;
-		Integer bloom = 30;
-		Integer brew = 90;
+		countdown = true;
+		pre = 30;
+		bloom = 30;
+		brew = 90;
+		total = pre + bloom + brew;
 		pre_text_view.setText(R.string.pre_text_view);
 		bloom_text_view.setText(R.string.bloom_text_view);
 		brew_text_view.setText(R.string.brew_text_view);
 		sub_text_view.setText(R.string.pre_text_view);
 		total_text_view.setText("Total");
 		setTimesForDeviceState(pre, bloom, brew);
-		setupButtonForDevice();
+		setButtonToStart();
 	}
+
+	private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            long current = System.currentTimeMillis();
+            if (countdown) {
+            	mTotalTime -= current - mStart;
+			} else {
+				mTotalTime += current - mStart;
+			}
+            mStart = current;
+            Log.d("DEBUGGERY", "Current: " + current/1000 + " TotalTime: " + mTotalTime + " mStart: " + mStart/1000 + " Total: " + ((mTotalTime/1000) + total));
+
+
+//            sub_text_timer.setText(DateUtils.formatElapsedTime(0));
+            total_text_timer.setText(DateUtils.formatElapsedTime((mTotalTime/1000) + total));
+
+            if (((mTotalTime/1000) + total) == 0 && countdown) {
+				stopTimer();
+				
+			} else {
+				mHandler.sendEmptyMessageDelayed(0, 250);
+			}
+        };
+    };
 
 }
