@@ -220,7 +220,9 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		brew_text_view.setText(R.string.brew_text_view);
 		sub_text_view.setText(R.string.pre_text_view);
 		total_text_view.setText("Total");
+		Log.d("BUG", "Before set times for device state");
 		setTimesForDeviceState(pre, bloom, brew);
+		Log.d("BUG", "After set times for device state");
 		setButtonToStart();
 	}
 	
@@ -230,12 +232,24 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		bloom = 30;
 		brew = 180;
 		total = pre + bloom + brew;
+		mSubTime = pre;
+		preString = getResources().getString(R.string.pre_text_view);
+		bloomString = getResources().getString(R.string.bloom_text_view);
+		brewString = getResources().getString(R.string.brew_text_view);
+		subTitles = new ArrayList<String>();
+		subTitles.add(bloomString);
+		subTitles.add(brewString);
+		subTimes = new ArrayList<Integer>();
+		subTimes.add(bloom);
+		subTimes.add(brew);
 		pre_text_view.setText(R.string.pre_text_view);
 		bloom_text_view.setText(R.string.bloom_text_view);
 		brew_text_view.setText(R.string.brew_text_view);
 		sub_text_view.setText(R.string.pre_text_view);
 		total_text_view.setText("Total");
+		Log.d("BUG", "Before set times for device state");
 		setTimesForDeviceState(pre, bloom, brew);
+		Log.d("BUG", "After set times for device state");
 		setButtonToStart();
 	}
 	
@@ -261,6 +275,16 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		bloom = 180;
 		brew = 30;
 		total = pre + bloom + brew;
+		mSubTime = pre;
+		subTitles = new ArrayList<String>();
+		subTimes = new ArrayList<Integer>();
+		preString = getResources().getString(R.string.bloom_text_view);
+		bloomString = getResources().getString(R.string.brew_text_view);
+		brewString = getResources().getString(R.string.plunge_text_view);
+		subTitles.add(bloomString);
+		subTitles.add(brewString);
+		subTimes.add(bloom);
+		subTimes.add(brew);
 		pre_text_view.setText(R.string.bloom_text_view);
 		bloom_text_view.setText(R.string.brew_text_view);
 		brew_text_view.setText(R.string.plunge_text_view);
@@ -276,6 +300,16 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		bloom = 30;
 		brew = 90;
 		total = pre + bloom + brew;
+		mSubTime = pre;
+		subTitles = new ArrayList<String>();
+		subTimes = new ArrayList<Integer>();
+		preString = getResources().getString(R.string.pre_text_view);
+		bloomString = getResources().getString(R.string.bloom_text_view);
+		brewString = getResources().getString(R.string.brew_text_view);
+		subTitles.add(bloomString);
+		subTitles.add(brewString);
+		subTimes.add(bloom);
+		subTimes.add(brew);
 		pre_text_view.setText(R.string.pre_text_view);
 		bloom_text_view.setText(R.string.bloom_text_view);
 		brew_text_view.setText(R.string.brew_text_view);

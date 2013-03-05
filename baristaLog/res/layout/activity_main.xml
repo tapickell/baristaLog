@@ -2,13 +2,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:keepScreenOn="true"
     tools:context=".MainActivity" >
 
     <Spinner
         android:id="@+id/devices_spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="40dp"
+        android:layout_margin="30dp"
         android:textSize="30sp"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/device_spinner" />
@@ -93,7 +94,7 @@
             android:id="@+id/sub_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="40dp"
+            android:layout_margin="30dp"
             android:textSize="30sp"
             android:contentDescription="@string/sub_text_view" />
 
@@ -101,7 +102,7 @@
             android:id="@+id/sub_text_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="40dp"
+            android:layout_margin="30dp"
             android:textSize="30sp"
             android:contentDescription="@string/sub_text_timer" />
         
@@ -119,7 +120,7 @@
             android:id="@+id/total_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="40dp"
+            android:layout_margin="30dp"
             android:textSize="30sp"
             android:contentDescription="@string/total_text_view" />
 
@@ -127,7 +128,7 @@
             android:id="@+id/total_text_timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="40dp"
+            android:layout_margin="30dp"
             android:textSize="30sp"
             android:contentDescription="@string/total_text_timer" />
         
@@ -145,7 +146,7 @@
             android:id="@+id/start_stop_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" 
-            android:textSize="40sp"
+            android:textSize="30sp"
             android:layout_margin="30dp" />
             
         
