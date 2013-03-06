@@ -256,6 +256,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 	private void setStateForEspresso() {
 		countdown = false;
 		total = 0;
+		mSubTime = 0;
 		pre_text_view.setText("");
 		bloom_text_view.setText("");
 		brew_text_view.setText("");
@@ -265,6 +266,8 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		bloom_text_timer.setText("");
 		brew_text_timer.setText("");
 		sub_text_timer.setText("");
+		subTitles = new ArrayList<String>();
+		subTimes = new ArrayList<Integer>();
 		total_text_timer.setText(DateUtils.formatElapsedTime(0));
 		setButtonToStart();
 	}
@@ -348,7 +351,9 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 					}
 				}
 			}
-            sub_text_timer.setText(DateUtils.formatElapsedTime((mTotalTime/1000) + mSubTime));
+            if (countdown) {
+            	sub_text_timer.setText(DateUtils.formatElapsedTime((mTotalTime/1000) + mSubTime));
+			}
             total_text_timer.setText(DateUtils.formatElapsedTime((mTotalTime/1000) + total));
 
             if (((mTotalTime/1000) + total) == 0 && countdown) {
