@@ -139,6 +139,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		subTitles = device.getSubTitles();
 		if (subTimes.isEmpty()) {
 			mSubTime = 0; 
+			sub_text_timer.setText("");
 		} else {
 			mSubTime = subTimes.get(0);
 			sub_text_timer.setText(DateUtils.formatElapsedTime(subTimes.get(0)));
