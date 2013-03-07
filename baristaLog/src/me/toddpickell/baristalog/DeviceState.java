@@ -189,6 +189,22 @@ public class DeviceState extends Activity {
 	
 	
 	
+	public List<String> getSubTitles() {
+		return subTitles;
+	}
+
+	public void setSubTitles(List<String> subTitles) {
+		this.subTitles = subTitles;
+	}
+
+	public List<Integer> getSubTimes() {
+		return subTimes;
+	}
+
+	public void setSubTimes(List<Integer> subTimes) {
+		this.subTimes = subTimes;
+	}
+
 	public String popSubTitle() {
 		String temp = "";
 		if (!subTitles.isEmpty()) {
