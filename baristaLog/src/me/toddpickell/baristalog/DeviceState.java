@@ -22,8 +22,10 @@ public class DeviceState extends Activity {
 	private String espr = "espresso";
 	private String fren = "french press";
 	private String pour = "pour over";
-	private Integer pre, bloom, brew, total;
+	private Integer pre, bloom, brew;
+	private Integer total;
 	private String firstSub, secondSub, thirdSub;
+	private Boolean countdown = true;
 	
 	
 	
@@ -34,7 +36,6 @@ public class DeviceState extends Activity {
 		deviceNames.add(aero);
 		deviceNames.add(chem);
 		deviceNames.add(clev);
-		deviceNames.add(espr);
 		deviceNames.add(fren);
 		deviceNames.add(pour);
 		initDeviceWithName();
@@ -44,6 +45,7 @@ public class DeviceState extends Activity {
 		if (deviceNames.contains(device_type)) {
 			// then device name is in list for shared preferences
 			device = getSharedPreferences(device_type, MODE_PRIVATE);
+			
 			if (device.contains("pre")) {
 				// then file is already in place
 				getDeviceSettingsFromFile();
@@ -51,10 +53,15 @@ public class DeviceState extends Activity {
 			} else {
 				// file is not setup with data
 				setupNewDevice();
+				
 			}
-			
 			// now load settings into Lists
 			addDeviceSettingsToLists();
+			
+		} else if (device_type.equals(espr)) {
+			// espresso device doesn't have changeable settings 
+			// so nothing is saved to shared preferences
+			setupForEspressoDevice();
 		}
 	}
 	
@@ -69,9 +76,6 @@ public class DeviceState extends Activity {
 		if (brew != null) {
 			subTimes.add(brew);
 		}
-		if (total != null) {
-			subTimes.add(total);
-		}
 		if (!firstSub.isEmpty()) {
 			subTitles.add(firstSub);
 		}
@@ -81,7 +85,6 @@ public class DeviceState extends Activity {
 		if (!thirdSub.isEmpty()) {
 			subTitles.add(thirdSub);
 		}
-		
 	}
 
 	private void getDeviceSettingsFromFile() {
@@ -107,60 +110,26 @@ public class DeviceState extends Activity {
 		if (device.contains("thirdSub")) {
 			thirdSub = device.getString("thirdSub", "");
 		}
+		countdown = true;
 	}
 
 	private void setupNewDevice() {
 		SharedPreferences.Editor editor = device.edit();		
 		
 		if (device_type.equals(chem) || device_type.equals(clev)) {
-			//setup object for chemex or clever
-			pre = 30;
-			bloom = 30;
-			brew = 180;
-			total = 240;
-			firstSub = "Pre";
-			secondSub = "Bloom";
-			thirdSub = "Brew";
+			setupForChemexCleverDevice();
 			
 		} else if (device_type.equals(fren)) {
-			//setup object for french press
-			pre = 30;
-			bloom = 180;
-			brew = 30;
-			total = 240;
-			firstSub = "Bloom";
-			secondSub = "Brew";
-			thirdSub = "Plunge";
+			setupForFrenchPressDevice();
 			
 		} else if (device_type.equals(pour)) {
-			//setup object for pour over
-			pre = 30;
-			bloom = 30;
-			brew = 90;
-			total = 150;
-			firstSub = "Pre";
-			secondSub = "Bloom";
-			thirdSub = "Brew";
+			setupForPourOverDevice();
 			
 		} else if (device_type.equals(aero)) {
-			//setup for aeropress
-			pre = 10;
-			bloom = 20;
-			brew = 0;
-			total = 30;
-			firstSub = "Steep";
-			secondSub = "Plunge";
-			thirdSub = "";
+			setupForAeroDevice();
 			
 		} else {
-			//setup for espresso
-			pre = 0;
-			bloom = 0;
-			brew = 0;
-			total = 0;
-			firstSub = "";
-			secondSub = "";
-			thirdSub = "";
+			setupForEspressoDevice();
 		}
 		
 		if (!pre.equals(0)) {
@@ -186,6 +155,66 @@ public class DeviceState extends Activity {
 		}
 		editor.commit();
 	}
+
+	private void setupForChemexCleverDevice() {
+		//setup object for chemex or clever
+		pre = 30;
+		bloom = 30;
+		brew = 180;
+		total = 240;
+		firstSub = "Pre";
+		secondSub = "Bloom";
+		thirdSub = "Brew";
+		countdown = true;
+	}
+
+	private void setupForFrenchPressDevice() {
+		//setup object for french press
+		pre = 30;
+		bloom = 180;
+		brew = 30;
+		total = 240;
+		firstSub = "Bloom";
+		secondSub = "Brew";
+		thirdSub = "Plunge";
+		countdown = true;
+	}
+
+	private void setupForPourOverDevice() {
+		//setup object for pour over
+		pre = 30;
+		bloom = 30;
+		brew = 90;
+		total = 150;
+		firstSub = "Pre";
+		secondSub = "Bloom";
+		thirdSub = "Brew";
+		countdown = true;
+	}
+
+	private void setupForAeroDevice() {
+		//setup for aeropress
+		pre = 10;
+		bloom = 20;
+		brew = 0;
+		total = 30;
+		firstSub = "Steep";
+		secondSub = "Plunge";
+		thirdSub = "";
+		countdown = true;
+	}
+
+	private void setupForEspressoDevice() {
+		//setup for espresso
+		pre = 0;
+		bloom = 0;
+		brew = 0;
+		total = 0;
+		firstSub = "";
+		secondSub = "";
+		thirdSub = "";
+		countdown = false;
+	}
 	
 	
 	
@@ -203,6 +232,10 @@ public class DeviceState extends Activity {
 
 	public void setSubTimes(List<Integer> subTimes) {
 		this.subTimes = subTimes;
+	}
+
+	public Integer getTotal() {
+		return total;
 	}
 
 	public String popSubTitle() {

@@ -41,6 +41,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 	private String brewString;
 	private List<String> subTitles;
 	private List<Integer> subTimes;
+	private List<String> deviceNames;
 	
 	private Integer pre;
 	private Integer bloom;
@@ -51,6 +52,8 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
     private long mSubTime = 0;
     
     private Boolean countdown;
+    
+    private DeviceState device;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +72,13 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		total_text_timer = (TextView) findViewById(R.id.total_text_timer);
 		start_stop_button = (Button) findViewById(R.id.start_stop_button);
 		
+		deviceNames.add("areopress");
+		deviceNames.add("chemex");
+		deviceNames.add("clever");
+		deviceNames.add("espresso");
+		deviceNames.add("french press");
+		deviceNames.add("pour over");
+		
 		start_stop_button.setOnClickListener(this);
 		
 		//setup array adapter for spinner
@@ -77,6 +87,8 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.devices_array, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
+		
+		total_text_view.setText("Total");
 	}
 
 	@Override
@@ -117,41 +129,11 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		if (!timerIsStopped()) {
 			stopTimer();
 		}
-		//change timer state according to device selected
-		switch (pos) {
-		case 0:
-			setStateForAeropress();
-			break;
-
-		case 1:
-			setStateForChemex();
-			break;
-			
-		case 2:
-			setStateForClever();
-			break;
-			
-		case 3:
-			setStateForEspresso();
-			break;
-			
-		case 4:
-			setStateForFrenchPress();
-			break;
-			
-		case 5:
-			setStateForPourOver();
-			break;
-			
-		default:
-			break;
-		}
-		
+		setStateForDevice(deviceNames.get(pos));		
 	}
 
 	@Override
 	public void onNothingSelected(AdapterView<?> arg0) {
-		
 		
 	}
 	
@@ -172,6 +154,17 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 	private void setButtonToStart() {
 		start_stop_button.setText("START");
 		start_stop_button.setBackgroundColor(getResources().getColor(R.color.GREEN));
+	}
+	
+	private void setStateForDevice(String device_name) {
+		device = new DeviceState(device_name);
+		subTimes = device.getSubTimes();
+		subTitles = device.getSubTitles();
+		mSubTime = subTimes.get(0);
+		sub_text_view.setText(subTitles.get(0));
+		sub_text_timer.setText(DateUtils.formatElapsedTime(subTimes.get(0)));
+		total_text_timer.setText(DateUtils.formatElapsedTime(device.getTotal()));
+		setButtonToStart();
 	}
 	
 	private void setStateForAeropress() {
