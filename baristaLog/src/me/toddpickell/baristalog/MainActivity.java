@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -72,7 +73,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		subTitles = new ArrayList<String>();
 		deviceNames = new ArrayList<String>();
 		
-		deviceNames.add("areopress");
+		deviceNames.add("aeropress");
 		deviceNames.add("chemex");
 		deviceNames.add("clever");
 		deviceNames.add("espresso");
@@ -149,6 +150,9 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		start_stop_button.setBackgroundColor(getResources().getColor(R.color.GREEN));
 	}
 	
+	public Context getContext() {
+		return this;
+	}
 	private void setStateForDevice(String device_name) {
 		device = new DeviceState(this, device_name);
 		subTimes = device.getSubTimes();

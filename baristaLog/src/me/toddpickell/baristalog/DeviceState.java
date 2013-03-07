@@ -17,7 +17,7 @@ public class DeviceState extends Activity {
 	private List<String> subTitles;
 	private List<Integer> subTimes;
 	private SharedPreferences device;
-	private String aero = "areopress";
+	private String aero = "aeropress";
 	private String chem = "chemex";
 	private String clev = "clever";
 	private String espr = "espresso";
@@ -96,6 +96,8 @@ public class DeviceState extends Activity {
 
 	private void getDeviceSettingsFromFile() {
 	
+		Log.d("PKL", "Loading settings from device");
+		
 		if (device.contains("pre")) {
 			pre = device.getInt("pre", 0);
 		}

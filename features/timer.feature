@@ -55,7 +55,7 @@ Scenario: Select Aeropress and press start and wait for timer to stop
   Then I should see "00:30"
   Then I press the "START" button
   Then I wait to see "Plunge"
-  Then I should see "00:20"
+  Then I should see "00:19"
   Then I wait for the "START" button to appear
   Then I should see "00:00"
 
