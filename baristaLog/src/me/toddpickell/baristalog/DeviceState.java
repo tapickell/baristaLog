@@ -22,6 +22,8 @@ public class DeviceState extends Activity {
 	private String espr = "espresso";
 	private String fren = "french press";
 	private String pour = "pour over";
+	private Integer pre, bloom, brew, total;
+	private String firstSub, secondSub, thirdSub;
 	
 	
 	
@@ -44,19 +46,71 @@ public class DeviceState extends Activity {
 			device = getSharedPreferences(device_type, MODE_PRIVATE);
 			if (device.contains("pre")) {
 				// then file is already in place
+				getDeviceSettingsFromFile();
 				
 			} else {
 				// file is not setup with data
 				setupNewDevice();
 			}
 			
+			// now load settings into Lists
+			addDeviceSettingsToLists();
 		}
 	}
 	
+	private void addDeviceSettingsToLists() {
+		
+		if (pre != null) {
+			subTimes.add(pre);
+		}
+		if (bloom != null) {
+			subTimes.add(bloom);
+		}
+		if (brew != null) {
+			subTimes.add(brew);
+		}
+		if (total != null) {
+			subTimes.add(total);
+		}
+		if (!firstSub.isEmpty()) {
+			subTitles.add(firstSub);
+		}
+		if (!secondSub.isEmpty()) {
+			subTitles.add(secondSub);
+		}
+		if (!thirdSub.isEmpty()) {
+			subTitles.add(thirdSub);
+		}
+		
+	}
+
+	private void getDeviceSettingsFromFile() {
+	
+		if (device.contains("pre")) {
+			pre = device.getInt("pre", 0);
+		}
+		if (device.contains("bloom")) {
+			bloom = device.getInt("bloom", 0);
+		}
+		if (device.contains("brew")) {
+			brew = device.getInt("brew", 0);
+		}
+		if (device.contains("total")) {
+			total = device.getInt("total", 0);
+		}
+		if (device.contains("firstSub")) {
+			firstSub = device.getString("firstSub", "");
+		}
+		if (device.contains("secondSub")) {
+			secondSub = device.getString("secondSub", "");
+		}
+		if (device.contains("thirdSub")) {
+			thirdSub = device.getString("thirdSub", "");
+		}
+	}
+
 	private void setupNewDevice() {
-		SharedPreferences.Editor editor = device.edit();
-		Integer pre, bloom, brew, total;
-		String firstSub, secondSub, thirdSub;
+		SharedPreferences.Editor editor = device.edit();		
 		
 		if (device_type.equals(chem) || device_type.equals(clev)) {
 			//setup object for chemex or clever
@@ -97,7 +151,9 @@ public class DeviceState extends Activity {
 			firstSub = "Steep";
 			secondSub = "Plunge";
 			thirdSub = "";
+			
 		} else {
+			//setup for espresso
 			pre = 0;
 			bloom = 0;
 			brew = 0;
@@ -134,7 +190,7 @@ public class DeviceState extends Activity {
 	
 	
 	public String popSubTitle() {
-		String temp = "null";
+		String temp = "";
 		if (!subTitles.isEmpty()) {
 			temp = subTitles.get(0);
 			subTitles.remove(0);
