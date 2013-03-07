@@ -1,14 +1,12 @@
 package me.toddpickell.baristalog;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
-import android.app.Activity;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -24,28 +22,17 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements OnItemSelectedListener, OnClickListener {
 	
 	private Spinner spinner;
-	private TextView pre_text_view;
-	private TextView bloom_text_view;
-	private TextView brew_text_view;
-	private TextView pre_text_timer;
-	private TextView bloom_text_timer;
-	private TextView brew_text_timer;
+	
 	private TextView sub_text_view;
 	private TextView sub_text_timer;
 	private TextView total_text_view;
 	private TextView total_text_timer;
 	private Button start_stop_button;
 	
-	private String preString;
-	private String bloomString;
-	private String brewString;
 	private List<String> subTitles;
 	private List<Integer> subTimes;
 	private List<String> deviceNames;
 	
-	private Integer pre;
-	private Integer bloom;
-	private Integer brew;
 	private Integer total;
 	private long mStart = 0;
     private long mTotalTime = 0;
@@ -60,17 +47,15 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		pre_text_view = (TextView) findViewById(R.id.pre_text_view);
-		bloom_text_view = (TextView) findViewById(R.id.bloom_text_view);
-		brew_text_view = (TextView) findViewById(R.id.brew_text_view);
-		pre_text_timer = (TextView) findViewById(R.id.pre_text_timer);
-		bloom_text_timer = (TextView) findViewById(R.id.bloom_text_timer);
-		brew_text_timer = (TextView) findViewById(R.id.brew_text_timer);
 		sub_text_view = (TextView) findViewById(R.id.sub_text_view);
 		sub_text_timer = (TextView) findViewById(R.id.sub_text_timer);
 		total_text_view = (TextView) findViewById(R.id.total_text_view);
 		total_text_timer = (TextView) findViewById(R.id.total_text_timer);
 		start_stop_button = (Button) findViewById(R.id.start_stop_button);
+		
+		subTimes = new ArrayList<Integer>();
+		subTitles = new ArrayList<String>();
+		deviceNames = new ArrayList<String>();
 		
 		deviceNames.add("areopress");
 		deviceNames.add("chemex");
@@ -149,12 +134,23 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 	}
 	
 	private void setStateForDevice(String device_name) {
-		device = new DeviceState(device_name);
+		device = new DeviceState(this, device_name);
 		subTimes = device.getSubTimes();
 		subTitles = device.getSubTitles();
-		mSubTime = subTimes.get(0);
-		sub_text_view.setText(subTitles.get(0));
-		sub_text_timer.setText(DateUtils.formatElapsedTime(subTimes.get(0)));
+		if (subTimes.isEmpty()) {
+			mSubTime = 0; 
+		} else {
+			mSubTime = subTimes.get(0);
+			sub_text_timer.setText(DateUtils.formatElapsedTime(subTimes.get(0)));
+			subTimes.remove(0);
+		}
+		if (subTitles.isEmpty()) {
+			sub_text_view.setText("");
+		} else {
+			sub_text_view.setText(subTitles.get(0));
+			subTitles.remove(0);
+		}
+
 		total_text_timer.setText(DateUtils.formatElapsedTime(device.getTotal()));
 		setButtonToStart();
 	}
@@ -162,7 +158,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 	private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             long current = System.currentTimeMillis();
-            if (countdown) {
+            if (device.getCountdown()) {
             	mTotalTime -= current - mStart;
 			} else {
 				mTotalTime += current - mStart;
@@ -188,12 +184,12 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 					}
 				}
 			}
-            if (countdown) {
+            if (device.getCountdown()) {
             	sub_text_timer.setText(DateUtils.formatElapsedTime((mTotalTime/1000) + mSubTime));
 			}
-            total_text_timer.setText(DateUtils.formatElapsedTime((mTotalTime/1000) + total));
+            total_text_timer.setText(DateUtils.formatElapsedTime((mTotalTime/1000) + device.getTotal()));
 
-            if (((mTotalTime/1000) + total) == 0 && countdown) {
+            if (((mTotalTime/1000) + device.getTotal()) == 0 && device.getCountdown()) {
 				stopTimer();
 				
 			} else {

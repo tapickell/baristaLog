@@ -1,11 +1,12 @@
 package me.toddpickell.baristalog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.util.Log;
 
 public class DeviceState extends Activity {
 	// needs to extend activity to have access to getSharedPreferences()
@@ -26,13 +27,18 @@ public class DeviceState extends Activity {
 	private Integer total;
 	private String firstSub, secondSub, thirdSub;
 	private Boolean countdown = true;
+	private Context context;
 	
 	
 	
 	
-	public DeviceState(String device_type) {
+	public DeviceState(Context context, String device_type) {
 		super();
+		this.context = context;
 		this.device_type = device_type;
+		subTimes = new ArrayList<Integer>();
+		subTitles = new ArrayList<String>();
+		deviceNames = new ArrayList<String>();
 		deviceNames.add(aero);
 		deviceNames.add(chem);
 		deviceNames.add(clev);
@@ -44,7 +50,8 @@ public class DeviceState extends Activity {
 	private void initDeviceWithName() {
 		if (deviceNames.contains(device_type)) {
 			// then device name is in list for shared preferences
-			device = getSharedPreferences(device_type, MODE_PRIVATE);
+			
+			device = context.getSharedPreferences(device_type, 0); // getting null pointer from here not sure why yet
 			
 			if (device.contains("pre")) {
 				// then file is already in place
@@ -76,13 +83,13 @@ public class DeviceState extends Activity {
 		if (brew != null) {
 			subTimes.add(brew);
 		}
-		if (!firstSub.isEmpty()) {
+		if (firstSub != null) {
 			subTitles.add(firstSub);
 		}
-		if (!secondSub.isEmpty()) {
+		if (secondSub != null) {
 			subTitles.add(secondSub);
 		}
-		if (!thirdSub.isEmpty()) {
+		if (thirdSub != null) {
 			subTitles.add(thirdSub);
 		}
 	}
@@ -236,6 +243,10 @@ public class DeviceState extends Activity {
 
 	public Integer getTotal() {
 		return total;
+	}
+
+	public Boolean getCountdown() {
+		return countdown;
 	}
 
 	public String popSubTitle() {
