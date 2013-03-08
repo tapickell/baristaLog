@@ -306,6 +306,10 @@ public class DeviceState extends Activity {
 		return countdown;
 	}
 
+	public String getDevice_type() {
+		return device_type;
+	}
+
 	public String popSubTitle() {
 		String temp = "";
 		if (!subTitles.isEmpty()) {
