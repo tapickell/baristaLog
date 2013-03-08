@@ -73,6 +73,8 @@ public class DeviceState extends Activity {
 	}
 	
 	private void addDeviceSettingsToLists() {
+		subTimes.clear();
+		subTitles.clear();
 		
 		if (pre != null) {
 			subTimes.add(pre);
@@ -268,4 +270,26 @@ public class DeviceState extends Activity {
 		}
 		return temp;		
 	}
+
+	public void editDeviceTimes(List<Integer> times) {
+		SharedPreferences.Editor editor = device.edit();
+		
+		editor.putInt("pre", times.get(0));
+		editor.putInt("bloom", times.get(1));
+		editor.putInt("brew", times.get(2));
+		editor.putInt("total", (times.get(0) + times.get(1) + times.get(2)));
+
+		editor.commit();
+		
+		getDeviceSettingsFromFile();
+		addDeviceSettingsToLists();
+	}
 }
+
+
+
+
+
+
+
+
