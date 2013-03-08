@@ -29,6 +29,7 @@
     <string name="sub_text_timer">sub_text_timer</string>
     <string name="total_text_view">total_text_view</string>
     <string name="total_text_timer">total_text_timer</string>
+    <string name="edit_button_label">EDIT</string>
     
 
     <string-array name="devices_array">

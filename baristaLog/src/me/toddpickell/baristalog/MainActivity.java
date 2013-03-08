@@ -36,6 +36,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 	private TextView total_text_view;
 	private TextView total_text_timer;
 	private Button start_stop_button;
+	private Button edit_button;
 	
 	private List<String> subTitles;
 	private List<Integer> subTimes;
@@ -49,6 +50,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
     
     private SoundPool soundPool;
 	private HashMap<Integer, Integer> soundMap;
+	
 
 	@SuppressLint("UseSparseArrays")
 	@Override
@@ -68,6 +70,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		total_text_view = (TextView) findViewById(R.id.total_text_view);
 		total_text_timer = (TextView) findViewById(R.id.total_text_timer);
 		start_stop_button = (Button) findViewById(R.id.start_stop_button);
+		edit_button = (Button) findViewById(R.id.edit_button);
 		
 		subTimes = new ArrayList<Integer>();
 		subTitles = new ArrayList<String>();
@@ -81,6 +84,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		deviceNames.add("pour over");
 		
 		start_stop_button.setOnClickListener(this);
+		edit_button.setOnClickListener(this);
 		
 		//setup array adapter for spinner
 		spinner = (Spinner) findViewById(R.id.devices_spinner);
@@ -94,12 +98,20 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 
 	@Override
 	public void onClick(View view) {
-		if (timerIsStopped()) {
-			startTimer();
-		} else {
-			stopTimer();
+		if (view.equals(start_stop_button)) {
+			if (timerIsStopped()) {
+				startTimer();
+			} else {
+				stopTimer();
+			}
+			soundPool.play(soundMap.get(CLICK_SOUND_ID), 1, 1, 1, 0, 1f);
+			
+		} else if (view.equals(edit_button)) {
+			//prompt user for new settings
+			
+			//call edit settings on deiveState object
+			
 		}
-		soundPool.play(soundMap.get(CLICK_SOUND_ID), 1, 1, 1, 0, 1f);
 	}
 	
 	private void stopTimer() {
@@ -131,7 +143,14 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		if (!timerIsStopped()) {
 			stopTimer();
 		}
-		setStateForDevice(deviceNames.get(pos));		
+		setStateForDevice(deviceNames.get(pos));	
+		if (pos != 3) {
+			//show edit button for devices
+			
+		} else {
+			//hide edit button for espresso
+			
+		}
 	}
 
 	@Override
