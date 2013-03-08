@@ -329,8 +329,12 @@ public class DeviceState extends Activity {
 		
 		editor.putInt("pre", times.get(0));
 		editor.putInt("bloom", times.get(1));
-		editor.putInt("brew", times.get(2));
-		editor.putInt("total", (times.get(0) + times.get(1) + times.get(2)));
+		if (times.size() > 2) {
+			editor.putInt("brew", times.get(2));
+			editor.putInt("total", (times.get(0) + times.get(1) + times.get(2)));
+		} else {
+			editor.putInt("total", (times.get(0) + times.get(1)));
+		}
 
 		editor.commit();
 		
