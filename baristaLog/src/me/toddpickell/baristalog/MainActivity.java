@@ -6,14 +6,18 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -36,7 +40,6 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 	private TextView total_text_view;
 	private TextView total_text_timer;
 	private Button start_stop_button;
-	private Button edit_button;
 	
 	private List<String> subTitles;
 	private List<Integer> subTimes;
@@ -70,7 +73,6 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		total_text_view = (TextView) findViewById(R.id.total_text_view);
 		total_text_timer = (TextView) findViewById(R.id.total_text_timer);
 		start_stop_button = (Button) findViewById(R.id.start_stop_button);
-		edit_button = (Button) findViewById(R.id.edit_button);
 		
 		subTimes = new ArrayList<Integer>();
 		subTitles = new ArrayList<String>();
@@ -84,7 +86,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		deviceNames.add("pour over");
 		
 		start_stop_button.setOnClickListener(this);
-		edit_button.setOnClickListener(this);
+		
 		
 		//setup array adapter for spinner
 		spinner = (Spinner) findViewById(R.id.devices_spinner);
@@ -105,11 +107,6 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 				stopTimer();
 			}
 			soundPool.play(soundMap.get(CLICK_SOUND_ID), 1, 1, 1, 0, 1f);
-			
-		} else if (view.equals(edit_button)) {
-			//prompt user for new settings
-			
-			//call edit settings on deiveState object
 			
 		}
 	}
@@ -136,6 +133,61 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.activity_main, menu);
 		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		
+		case R.id.edit_settings:
+			displayEditTimesMenu();
+			break;
+
+		default:
+			break;
+		}
+		
+		return false;
+	}
+	
+	private void displayEditTimesMenu() {
+		AlertDialog alert = new AlertDialog.Builder(MainActivity.this).create();
+		LayoutInflater factory = LayoutInflater.from(MainActivity.this);
+		final View customView = factory.inflate(R.layout.edit_device, null);
+		alert.setView(customView);
+		alert.setButton(-1, "Save", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				//persist settings to preferences file
+				//get settings from sliders
+				
+				
+				//add settings to list
+				
+				
+				//pass new list to device
+				
+				
+			}
+		});
+		
+		alert.setButton(-3, "Reset", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				//save defaults back to device current settings
+				device.resetDeviceToDefaults();
+			}
+		});
+		
+		alert.setButton(-2, "Cancel", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				//do nothing here
+			}
+		});
+		alert.show();
 	}
 
 	@Override

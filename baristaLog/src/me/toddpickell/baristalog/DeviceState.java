@@ -16,6 +16,7 @@ public class DeviceState extends Activity {
 	private List<String> deviceNames;
 	private List<String> subTitles;
 	private List<Integer> subTimes;
+	private List<Integer> defaultTimes;
 	private SharedPreferences device;
 	private String aero = "aeropress";
 	private String chem = "chemex";
@@ -23,6 +24,7 @@ public class DeviceState extends Activity {
 	private String espr = "espresso";
 	private String fren = "french press";
 	private String pour = "pour over";
+	private Integer default_pre, default_bloom, default_brew;
 	private Integer pre, bloom, brew;
 	private Integer total;
 	private String firstSub, secondSub, thirdSub;
@@ -36,6 +38,7 @@ public class DeviceState extends Activity {
 		super();
 		this.context = context;
 		this.device_type = device_type;
+		defaultTimes = new ArrayList<Integer>();
 		subTimes = new ArrayList<Integer>();
 		subTitles = new ArrayList<String>();
 		deviceNames = new ArrayList<String>();
@@ -53,7 +56,7 @@ public class DeviceState extends Activity {
 			
 			device = context.getSharedPreferences(device_type, 0); // getting null pointer from here not sure why yet
 			
-			if (device.contains("pre")) {
+			if (device.contains("pre") && device.contains("default_pre")) {
 				// then file is already in place
 				getDeviceSettingsFromFile();
 				
@@ -73,6 +76,7 @@ public class DeviceState extends Activity {
 	}
 	
 	private void addDeviceSettingsToLists() {
+		defaultTimes.clear();
 		subTimes.clear();
 		subTitles.clear();
 		
@@ -93,6 +97,15 @@ public class DeviceState extends Activity {
 		}
 		if (thirdSub != null) {
 			subTitles.add(thirdSub);
+		}
+		if (default_pre != null) {
+			defaultTimes.add(default_pre);
+		}
+		if (default_bloom != null) {
+			defaultTimes.add(default_bloom);
+		}
+		if (default_brew != null) {
+			defaultTimes.add(default_brew);
 		}
 	}
 
@@ -120,6 +133,15 @@ public class DeviceState extends Activity {
 		}
 		if (device.contains("thirdSub")) {
 			thirdSub = device.getString("thirdSub", "");
+		}
+		if (device.contains("default_pre")) {
+			default_pre = device.getInt("default_pre", 0);
+		}
+		if (device.contains("default_bloom")) {
+			default_bloom = device.getInt("default_bloom", 0);
+		}
+		if (device.contains("default_brew")) {
+			default_bloom = device.getInt("default_bloom", 0);
 		}
 		countdown = true;
 	}
@@ -164,6 +186,16 @@ public class DeviceState extends Activity {
 		if (!thirdSub.equals("")) {
 			editor.putString("thirdSub", thirdSub);
 		}
+		if (!default_pre.equals(0)) {
+			editor.putInt("default_pre", default_pre);
+		}
+		if (!default_bloom.equals(0)) {
+			editor.putInt("default_bloom", default_bloom);
+		}
+		if (!default_brew.equals(0)) {
+			editor.putInt("default_brew", default_brew);
+		}
+		
 		editor.commit();
 	}
 
@@ -173,6 +205,9 @@ public class DeviceState extends Activity {
 		bloom = 30;
 		brew = 180;
 		total = 240;
+		default_pre = 30;
+		default_bloom = 30;
+		default_brew = 180;
 		firstSub = "Pre";
 		secondSub = "Bloom";
 		thirdSub = "Brew";
@@ -185,6 +220,9 @@ public class DeviceState extends Activity {
 		bloom = 180;
 		brew = 30;
 		total = 240;
+		default_pre = 30;
+		default_bloom = 180;
+		default_brew = 30;
 		firstSub = "Bloom";
 		secondSub = "Brew";
 		thirdSub = "Plunge";
@@ -197,6 +235,9 @@ public class DeviceState extends Activity {
 		bloom = 30;
 		brew = 90;
 		total = 150;
+		default_pre = 30;
+		default_bloom = 30;
+		default_brew = 90;
 		firstSub = "Pre";
 		secondSub = "Bloom";
 		thirdSub = "Brew";
@@ -209,6 +250,9 @@ public class DeviceState extends Activity {
 		bloom = 20;
 		brew = 0;
 		total = 30;
+		default_pre = 10;
+		default_bloom = 20;
+		default_brew = 0;
 		firstSub = "Steep";
 		secondSub = "Plunge";
 		thirdSub = "";
@@ -221,13 +265,18 @@ public class DeviceState extends Activity {
 		bloom = 0;
 		brew = 0;
 		total = 0;
+		default_pre = 0;
+		default_bloom = 0;
+		default_brew = 0;
 		firstSub = "";
 		secondSub = "";
 		thirdSub = "";
 		countdown = false;
 	}
 	
-	
+	public void resetDeviceToDefaults() {
+		editDeviceTimes(defaultTimes);
+	}
 	
 	public List<String> getSubTitles() {
 		return subTitles;
@@ -243,6 +292,10 @@ public class DeviceState extends Activity {
 
 	public void setSubTimes(List<Integer> subTimes) {
 		this.subTimes = subTimes;
+	}
+
+	private List<Integer> getDefaultTimes() {
+		return defaultTimes;
 	}
 
 	public Integer getTotal() {
