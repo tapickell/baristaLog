@@ -19,7 +19,6 @@
             android:layout_margin="30dp"
             android:contentDescription="@string/device_spinner"
             android:textSize="30sp" />
-        
     </LinearLayout>
 
     <LinearLayout
@@ -152,6 +151,24 @@
             android:layout_height="wrap_content"
             android:layout_margin="30dp"
             android:textSize="30sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ad_view_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <com.google.ads.AdView
+            xmlns:googleads="http://schemas.android.com/apk/lib/com.google.ads"
+            android:id="@+id/ad"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            googleads:adSize="BANNER"
+            googleads:adUnitId="@string/admob_id" />
+        
     </LinearLayout>
 
 </RelativeLayout>

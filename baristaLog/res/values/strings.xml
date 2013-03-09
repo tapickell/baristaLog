@@ -34,6 +34,7 @@
     <string name="cancel_settings_button">Cancel</string>
     <string name="reset_settings_button">Reset</string>
     <string name="save_settings_button">Save</string>
+    <string name="admob_id">a1513a90cb838af</string>
     
 
     <string-array name="devices_array">

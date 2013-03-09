@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,10 +25,16 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class MainActivity extends Activity implements OnItemSelectedListener,
-		OnClickListener {
+import com.EVSA.GUbu138802.Airpush;
+import com.google.ads.Ad;
+import com.google.ads.AdListener;
+import com.google.ads.AdRequest;
+import com.google.ads.AdRequest.ErrorCode;
+import com.google.ads.AdView;
+//Ad network-specific imports (AdMob).
+
+public class MainActivity extends Activity implements OnItemSelectedListener, OnClickListener, AdListener {
 
 	private static final Integer TICK_SOUND_ID = 0;
 	private static final Integer DING_SOUND_ID = 1;
@@ -53,12 +60,20 @@ public class MainActivity extends Activity implements OnItemSelectedListener,
 
 	private SoundPool soundPool;
 	private HashMap<Integer, Integer> soundMap;
+	private AdView adView;
 
 	@SuppressLint("UseSparseArrays")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		adView = (AdView) findViewById(R.id.ad);
+		adView.setAdListener(this);
+		AdRequest adRequest = new AdRequest();
+		adRequest.addKeyword("coffee");
+		adView.loadAd(adRequest);
+		
 
 		setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
@@ -96,12 +111,9 @@ public class MainActivity extends Activity implements OnItemSelectedListener,
 		spinner.setAdapter(adapter);
 
 		total_text_view.setText("Total");
+
 	}
 	
-
-	
-
-
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -109,9 +121,15 @@ public class MainActivity extends Activity implements OnItemSelectedListener,
 		setStateForDevice(deviceNames.get(spinner.getSelectedItemPosition()));
 	}
 
+	@Override
+    public void onFailedToReceiveAd(Ad ad, ErrorCode errorCode) {
+        Log.d("ADD_ERROR", "error code: " + errorCode.toString());
+    }
 
-
-
+    @Override
+    public void onReceiveAd(Ad ad) {
+        Log.d("RCV_AD", "ad recvd: " + ad.toString());
+    }
 
 	@Override
 	public void onClick(View view) {
@@ -290,4 +308,20 @@ public class MainActivity extends Activity implements OnItemSelectedListener,
 		};
 	};
 
+	@Override
+	public void onDismissScreen(Ad arg0) {
+
+	}
+
+	@Override
+	public void onLeaveApplication(Ad arg0) {
+
+	}
+
+	@Override
+	public void onPresentScreen(Ad arg0) {
+		
+	}
+
 }
+

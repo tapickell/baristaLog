@@ -3,11 +3,17 @@
     package="me.toddpickell.baristalog"
     android:versionCode="1"
     android:versionName="1.0" >
-    
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
-	<uses-permission android:name="android.permission.CAMERA"></uses-permission>
-	<uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.INTERNET" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" > 
+    </uses-permission>
+    <uses-permission android:name="android.permission.CAMERA" >
+    </uses-permission>
 	
+    <uses-feature android:name="android.hardware.camera" />
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -17,16 +23,17 @@
         android:name="android.test.InstrumentationTestRunner"
         android:targetPackage="me.toddpickell.baristalog" >
     </instrumentation>
-    
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <uses-library android:name="android.test.runner" />
+
         <activity
             android:name="me.toddpickell.baristalog.MainActivity"
-            android:label="@string/app_name" 
+            android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,7 +41,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DeviceSettingsMenu"
+        <activity
+            android:name=".DeviceSettingsMenu"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -42,13 +50,24 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-            </activity>
-        <activity android:name=".ListLogs"
-            android:label="@string/app_name"></activity>
-        <activity android:name=".AddEditLog"
-            android:label="@string/app_name"></activity>
-        <activity android:name=".ViewLog"
-            android:label="@string/app_name"></activity>
+        </activity>
+        <activity
+            android:name=".ListLogs"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".AddEditLog"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name=".ViewLog"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.google.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
+
+      
     </application>
 
 </manifest>
