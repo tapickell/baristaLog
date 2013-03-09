@@ -31,6 +31,9 @@
     <string name="total_text_timer">total_text_timer</string>
     <string name="edit_button_label">EDIT</string>
     <string name="edit_settings">Edit Times</string>
+    <string name="cancel_settings_button">Cancel</string>
+    <string name="reset_settings_button">Reset</string>
+    <string name="save_settings_button">Save</string>
     
 
     <string-array name="devices_array">

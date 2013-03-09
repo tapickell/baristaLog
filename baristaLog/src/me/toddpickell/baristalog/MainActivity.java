@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnItemSelectedListener,
 		OnClickListener {
@@ -96,6 +97,21 @@ public class MainActivity extends Activity implements OnItemSelectedListener,
 
 		total_text_view.setText("Total");
 	}
+	
+
+	
+
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		setStateForDevice(deviceNames.get(spinner.getSelectedItemPosition()));
+	}
+
+
+
+
 
 	@Override
 	public void onClick(View view) {

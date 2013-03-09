@@ -141,7 +141,7 @@ public class DeviceState extends Activity {
 			default_bloom = device.getInt("default_bloom", 0);
 		}
 		if (device.contains("default_brew")) {
-			default_bloom = device.getInt("default_bloom", 0);
+			default_brew = device.getInt("default_brew", 0);
 		}
 		countdown = true;
 	}

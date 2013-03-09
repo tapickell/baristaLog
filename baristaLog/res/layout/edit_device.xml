@@ -120,4 +120,41 @@
         android:layout_gravity="center_horizontal"
         android:max="300"/>
     
+    <LinearLayout 
+        android:id="@+id/button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"> 
+    
+        <Button 
+            android:id="@+id/cancel_settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_margin="20dp"
+            android:text="@string/cancel_settings_button"/>
+        	
+        <Button 
+            android:id="@+id/reset_settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_margin="20dp"
+            android:text="@string/reset_settings_button"/>
+        
+        <Button 
+            android:id="@+id/save_settings_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_margin="20dp"
+            android:text="@string/save_settings_button"/>
+        
+    </LinearLayout>
+    
 </LinearLayout>
+
+
+
+
+
