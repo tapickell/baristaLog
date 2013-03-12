@@ -15,7 +15,7 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-public class CoffeeLog extends ListActivity {
+public class LogList extends ListActivity {
 
 	private static final String ROW_ID = "row_id";
 	private ListView coffeeLogListView;
@@ -29,8 +29,8 @@ public class CoffeeLog extends ListActivity {
 		
 		//TODO map log field to textview in listview layout
 		String[] from = new String[] { "name" };
-		int[] to = new int[] { R.id.coffeeLogTextView };
-		logAdapter = new SimpleCursorAdapter(CoffeeLog.this, R.layout.coffeeLog_list_item, null, from, to);
+//		int[] to = new int[] { R.id.coffeeLogTextView };
+//		logAdapter = new SimpleCursorAdapter(LogList.this, R.layout.coffeeLog_list_item, null, from, to);
 		
 		setListAdapter(logAdapter);
 	}
@@ -54,7 +54,7 @@ public class CoffeeLog extends ListActivity {
 	
 	private class GetLogTask extends AsyncTask<Object, Object, Cursor> {
 
-		DatabaseConnector databaseConnector = new DatabaseConnector(CoffeeLog.this);
+		DatabaseConnector databaseConnector = new DatabaseConnector(LogList.this);
 		
 		@Override
 		protected Cursor doInBackground(Object... params) {
@@ -73,16 +73,16 @@ public class CoffeeLog extends ListActivity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		return super.onCreateOptionsMenu(menu);
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.coffeelog_menu, menu);
+//		return super.onCreateOptionsMenu(menu);
+//		MenuInflater inflater = getMenuInflater();
+//		inflater.inflate(R.menu.coffeelog_menu, menu);
 		return true;
 	}
 
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent addNewCoffeeLog = new Intent(CoffeeLog.this, AddEditCoffeeLog.class);
+		Intent addNewCoffeeLog = new Intent(LogList.this, AddEditCoffeeLog.class);
 		startActivity(addNewCoffeeLog);
 		
 		return super.onOptionsItemSelected(item);
@@ -93,7 +93,7 @@ public class CoffeeLog extends ListActivity {
 
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-			Intent viewCoffeeLog = new Intent(CoffeeLog.this, ViewLog.class);
+			Intent viewCoffeeLog = new Intent(LogList.this, ViewLog.class);
 			viewCoffeeLog.putExtra(ROW_ID, arg3);
 			startActivity(viewCoffeeLog);
 
