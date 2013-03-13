@@ -5,6 +5,8 @@ public class LogNote {
 	private Long id;
 	private String device;
 	private String notes;
+	private String date;
+	private Integer rating;
 	private Integer pre_time;
 	private Integer bloom_time;
 	private Integer brew_time;
@@ -39,6 +41,22 @@ public class LogNote {
 
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public Integer getRating() {
+		return rating;
+	}
+
+	public void setRating(Integer rating) {
+		this.rating = rating;
 	}
 
 	public Integer getPre_time() {

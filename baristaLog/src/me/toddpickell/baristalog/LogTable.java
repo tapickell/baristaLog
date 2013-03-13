@@ -10,6 +10,8 @@ public final class LogTable {
 	public static class LogColumns implements BaseColumns {
 		public static final String DEVICE = "device";
 		public static final String NOTES = "notes";
+		public static final String DATE = "date";
+		public static final String RATING = "rating";
 		public static final String PRE_TIME = "pre_time";
 		public static final String BLOOM_TIME = "bloom_time";
 		public static final String BREW_TIME = "brew_time";
@@ -26,6 +28,8 @@ public final class LogTable {
 		stringBuilder.append(LogColumns._ID + " INTEGER PRIMARY KEY, ");
 		stringBuilder.append(LogColumns.DEVICE + " TEXT, ");
 		stringBuilder.append(LogColumns.NOTES + " TEXT, ");
+		stringBuilder.append(LogColumns.DATE + " TEXT, ");
+		stringBuilder.append(LogColumns.RATING + " INTEGER, ");
 		stringBuilder.append(LogColumns.PRE_TIME + " INTEGER, ");
 		stringBuilder.append(LogColumns.BLOOM_TIME + " INTEGER, ");
 		stringBuilder.append(LogColumns.BREW_TIME + " INTEGER, ");
