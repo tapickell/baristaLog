@@ -11,7 +11,7 @@ public class OpenHelper extends SQLiteOpenHelper {
 	private Context context;
 
 	OpenHelper(final Context context) {
-		super(context, DataConstants.DATABASE_NAME, null, DataManager.DATABASE_VERSION);
+		super(context, "LOG_NOTES", null, DataManager.DATABASE_VERSION);
 		this.context = context;
 	}
 	

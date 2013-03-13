@@ -56,7 +56,7 @@ public class DataManager {
 			db.setTransactionSuccessful();
 			
 		} catch (SQLException e) {
-			Log.e(Constants.LOG_TAG, "Error saving log note (transaction rolled back)", e);
+			Log.e("DATA_MANAGER", "Error saving log note (transaction rolled back)", e);
 			noteId = 0L;
 			
 		} finally {
@@ -78,7 +78,7 @@ public class DataManager {
 			result = true;
 			
 		} catch (SQLException e) {
-			Log.e(Constants.LOG_TAG, "Error deleting log note (transaction rolled back)", e);
+			Log.e("DATA_MANAGER", "Error deleting log note (transaction rolled back)", e);
 			
 		} finally {
 			db.endTransaction();
