@@ -1,25 +1,28 @@
 package me.toddpickell.baristalog;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 
 public class LogList extends ListActivity {
 
 	private static final String ROW_ID = "row_id";
 	private ListView coffeeLogListView;
 	private CursorAdapter logAdapter;
+	private List<LogNote> lognotes;
+	 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,8 @@ public class LogList extends ListActivity {
 		String[] from = new String[] { "name" };
 //		int[] to = new int[] { R.id.coffeeLogTextView };
 //		logAdapter = new SimpleCursorAdapter(LogList.this, R.layout.coffeeLog_list_item, null, from, to);
+		
+		lognotes = new ArrayList<LogNote>();
 		
 		setListAdapter(logAdapter);
 	}
