@@ -20,6 +20,8 @@ public class LogList extends ListActivity {
 
 	private static final String ROW_ID = "row_id";
 	private ListView coffeeLogListView;
+	
+	//from manning example
 	private CursorAdapter logAdapter;
 	private List<LogNote> lognotes;
 	 
