@@ -47,7 +47,7 @@ public class LogList extends ListActivity {
 	protected void onResume() {
 		super.onResume();
 		lognotes.clear();
-		lognotes.addAll(dataManager.getLogNotesByDevice(deviceName));
+		lognotes.addAll(dataManager.getLogNotesByDevice(deviceName));//calling into DataManager > LogDao to get all logs with device name
 		logAdapter.notifyDataSetChanged();
 	}
 
