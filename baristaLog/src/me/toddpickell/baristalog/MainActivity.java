@@ -176,11 +176,22 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 			launchDeviceSettingsMenu();
 			break;
 
+		case R.id.log_list_view:
+			launchLogListView();
+			break;
+			
 		default:
 			break;
 		}
 
 		return false;
+	}
+
+	private void launchLogListView() {
+		Intent intent = new Intent("me.toddpickell.baristalog.LOGLISTVIEW");
+		intent.putExtra("device_name", device.getDevice_type());
+		startActivity(intent);
+		
 	}
 
 	private void launchDeviceSettingsMenu() {

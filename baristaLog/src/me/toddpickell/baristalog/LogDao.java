@@ -25,7 +25,7 @@ public class LogDao implements Dao<LogNote> {
 			+ LogColumns.TAMP + ", "
 			+ LogColumns.GRIND + ", "
 			+ LogColumns.BLEND 
-			+ ") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+			+ ") values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	
 	private SQLiteDatabase db;
 	private SQLiteStatement insertStatement;

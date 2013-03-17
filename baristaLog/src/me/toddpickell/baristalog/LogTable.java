@@ -24,7 +24,7 @@ public final class LogTable {
 	
 	public static void onCreate(SQLiteDatabase db) {
 		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("CREAT TABLE " + LogTable.TABLE_NAME + " (");
+		stringBuilder.append("CREATE TABLE " + LogTable.TABLE_NAME + " (");
 		stringBuilder.append(LogColumns._ID + " INTEGER PRIMARY KEY, ");
 		stringBuilder.append(LogColumns.DEVICE + " TEXT, ");
 		stringBuilder.append(LogColumns.NOTES + " TEXT, ");

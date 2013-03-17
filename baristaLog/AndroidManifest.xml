@@ -52,8 +52,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ListLogs"
+            android:name=".LogList"
             android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="me.toddpickell.baristalog.LOGLISTVIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".AddEditLog"

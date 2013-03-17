@@ -20,6 +20,7 @@ public class LogList extends ListActivity {
 
 	private static final String ROW_ID = "row_id";
 	private ListView coffeeLogListView;
+	private String deviceName;
 
 	// from manning example
 	private DataManager dataManager;
@@ -31,18 +32,22 @@ public class LogList extends ListActivity {
 		super.onCreate(savedInstanceState);
 		coffeeLogListView = getListView();
 
+		deviceName = getIntent().getStringExtra("device_name");
+		
 		dataManager = new DataManager(this);
 		lognotes = new ArrayList<LogNote>();
 		logAdapter = new LogAdapter(this, lognotes);
 
-		setListAdapter(logAdapter);
+		coffeeLogListView.setAdapter(logAdapter);
+		coffeeLogListView.setEmptyView(findViewById(R.id.main_list_empty));
+		registerForContextMenu(coffeeLogListView);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		lognotes.clear();
-		lognotes.addAll(dataManager.getLogNoteHeaders());
+		lognotes.addAll(dataManager.getLogNotesByDevice(deviceName));
 		logAdapter.notifyDataSetChanged();
 	}
 
@@ -82,6 +87,7 @@ public class LogList extends ListActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	@Override
 	public void onListItemClick(ListView arg0, View arg1, int arg2, long arg3) {
 		Intent viewCoffeeLog = new Intent(LogList.this, ViewLog.class);
 		viewCoffeeLog.putExtra(ROW_ID, arg3);
