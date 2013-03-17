@@ -37,7 +37,7 @@ public class DataManager {
 
 	public List<LogNote> getLogNotesByDevice(String device) {
 		//if string for device name has a space need to remove for column name
-		device.replaceAll("\\s","");
+		device = device.replaceAll("\\s","_");
 		List<LogNote> lognotes = logDao.getAllLogsByDevice(device);
 		return lognotes;
 	}
