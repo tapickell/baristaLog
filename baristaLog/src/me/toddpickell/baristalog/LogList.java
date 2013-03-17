@@ -22,7 +22,7 @@ public class LogList extends ListActivity {
 	private ListView coffeeLogListView;
 	
 	//from manning example
-	private CursorAdapter logAdapter;
+	private LogAdapter logAdapter;
 	private List<LogNote> lognotes;
 	 
 
