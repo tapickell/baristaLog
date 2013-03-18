@@ -146,7 +146,15 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 			}
 			soundPool.play(soundMap.get(CLICK_SOUND_ID), 1, 1, 1, 0, 1f);
 
+		} else if (view.equals(add_log_button)) {
+			launchAddEditLogView();			
 		}
+	}
+
+	private void launchAddEditLogView() {
+		Intent intent = new Intent("me.toddpickell.baristalog.ADDEDITLOGVIEW");
+		intent.putExtra("device_name", device.getDevice_type());
+		startActivity(intent);
 	}
 
 	private void stopTimer() {

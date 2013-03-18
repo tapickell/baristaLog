@@ -71,7 +71,7 @@ public class LogList extends ListActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent addNewCoffeeLog = new Intent(LogList.this,
-				AddEditCoffeeLog.class);
+				AddEditLog.class);
 		startActivity(addNewCoffeeLog);
 
 		return super.onOptionsItemSelected(item);

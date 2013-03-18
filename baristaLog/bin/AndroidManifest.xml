@@ -63,6 +63,11 @@
         <activity
             android:name=".AddEditLog"
             android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="me.toddpickell.baristalog.ADDEDITLOGVIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ViewLog"
