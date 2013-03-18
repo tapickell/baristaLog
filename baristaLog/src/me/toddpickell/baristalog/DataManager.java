@@ -35,16 +35,34 @@ public class DataManager {
 	}
 
 
-	public List<LogNote> getLogNotesByDevice(String device) {
-		//if string for device name has a space need to remove for column name
+	public List<LogNote> getLogNotesByDevice(String device) throws NoDataForInputFoundException {
 		device = device.replaceAll("\\s","_");
-		List<LogNote> lognotes = logDao.getAllLogsByDevice(device);
+		List<LogNote> lognotes;
+		
+		try {
+			lognotes = logDao.getAllLogsByDevice(device);
+			
+		} catch (Exception e) {
+
+			throw new NoDataForInputFoundException(e.getMessage());
+		}
+		
 		return lognotes;
 	}
 
 
-	public List<LogNote> getLogNotesByBlend(String blend) {
-		List<LogNote> lognotes = logDao.getAllLogsByBlend(blend);
+	public List<LogNote> getLogNotesByBlend(String blend) throws NoDataForInputFoundException {
+		blend = blend.replaceAll("\\s", "_");
+		List<LogNote> lognotes; 
+		
+		try {
+			lognotes = logDao.getAllLogsByBlend(blend);
+			
+		} catch (Exception e) {
+			
+			throw new NoDataForInputFoundException(e.getMessage());
+		}
+		
 		return lognotes;
 	}
 

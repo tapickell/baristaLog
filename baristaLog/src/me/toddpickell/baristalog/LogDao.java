@@ -29,7 +29,6 @@ public class LogDao implements Dao<LogNote> {
 		Log.d("SQL_SUX", db.toString());
 		this.db = db;
 		insertStatement = db.compileStatement(INSERT);
-		//this doesnt like device names with two words in the string!!
 		Log.d("SQL_SUX", insertStatement.toString());
 	}
 
@@ -129,10 +128,10 @@ public class LogDao implements Dao<LogNote> {
 		return list;
 	}
 
-	public List<LogNote> getAllLogsByDevice(String device) {
+	public List<LogNote> getAllLogsByDevice(String device) throws NoDataForInputFoundException {
 		Log.d("SQL_SUX", "start of getAllLogsByDevice(" + device + ")");
 		List<LogNote> list = new ArrayList<LogNote>();
-		// crashes here VV
+
 		try {
 			Cursor c = db.query(LogTable.TABLE_NAME, new String[] {
 					BaseColumns._ID, LogColumns.DEVICE, LogColumns.NOTES,
@@ -164,40 +163,53 @@ public class LogDao implements Dao<LogNote> {
 		} catch (SQLiteException e) {
 			// TODO: handle exception
 			Log.d("SQL_SUX", e.getMessage());
-			//would like to throw an list is empty exception that 
-			//would be caught upwards and prevent empty list from being displayed.
-			//could also pop a toast that list is empty please add some items.
+			throw new NoDataForInputFoundException(e.getMessage());
+			// would like to throw an list is empty exception that
+			// would be caught upwards and prevent empty list from being
+			// displayed.
+			// could also pop a toast that list is empty please add some items.
 		}
 
 		return list;
 	}
 
-	public List<LogNote> getAllLogsByBlend(String blend) {
+	public List<LogNote> getAllLogsByBlend(String blend) throws NoDataForInputFoundException {
 		List<LogNote> list = new ArrayList<LogNote>();
-		Cursor c = db.query(LogTable.TABLE_NAME, new String[] {
-				BaseColumns._ID, LogColumns.DEVICE, LogColumns.NOTES,
-				LogColumns.DATE, LogColumns.RATING, LogColumns.PRE_TIME,
-				LogColumns.BLOOM_TIME, LogColumns.BREW_TIME, LogColumns.TEMP,
-				LogColumns.TAMP, LogColumns.GRIND, LogColumns.BLEND },
-		/* where */LogColumns.BLEND + " = " + blend,
-		/* selection args */null,
-		/* group by */null,
-		/* having */null,
-		/* order by */LogColumns.RATING);
+		try {
+			Cursor c = db.query(LogTable.TABLE_NAME, new String[] {
+					BaseColumns._ID, LogColumns.DEVICE, LogColumns.NOTES,
+					LogColumns.DATE, LogColumns.RATING, LogColumns.PRE_TIME,
+					LogColumns.BLOOM_TIME, LogColumns.BREW_TIME,
+					LogColumns.TEMP, LogColumns.TAMP, LogColumns.GRIND,
+					LogColumns.BLEND },
+			/* where */LogColumns.BLEND + " = " + blend,
+			/* selection args */null,
+			/* group by */null,
+			/* having */null,
+			/* order by */LogColumns.RATING);
 
-		if (c.moveToFirst()) {
+			if (c.moveToFirst()) {
 
-			do {
-				LogNote lognote = this.buildLogNoteFromCursor(c);
-				if (lognote != null) {
-					list.add(lognote);
-				}
-			} while (c.moveToNext());
+				do {
+					LogNote lognote = this.buildLogNoteFromCursor(c);
+					if (lognote != null) {
+						list.add(lognote);
+					}
+				} while (c.moveToNext());
 
-		}
+			}
 
-		if (!c.isClosed()) {
-			c.close();
+			if (!c.isClosed()) {
+				c.close();
+			}
+		} catch (SQLiteException e) {
+			// TODO: handle exception
+			Log.d("SQL_SUX", e.getMessage());
+			throw new NoDataForInputFoundException(e.getMessage());
+			// would like to throw an list is empty exception that
+			// would be caught upwards and prevent empty list from being
+			// displayed.
+			// could also pop a toast that list is empty please add some items.
 		}
 
 		return list;

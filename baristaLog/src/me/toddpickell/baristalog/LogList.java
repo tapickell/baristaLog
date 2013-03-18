@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class LogList extends ListActivity {
 
@@ -33,7 +34,7 @@ public class LogList extends ListActivity {
 		coffeeLogListView = getListView();
 
 		deviceName = getIntent().getStringExtra("device_name");
-		
+
 		dataManager = new DataManager(this);
 		lognotes = new ArrayList<LogNote>();
 		logAdapter = new LogAdapter(this, lognotes);
@@ -47,28 +48,17 @@ public class LogList extends ListActivity {
 	protected void onResume() {
 		super.onResume();
 		lognotes.clear();
-		lognotes.addAll(dataManager.getLogNotesByDevice(deviceName));//calling into DataManager > LogDao to get all logs with device name
-		logAdapter.notifyDataSetChanged();
-	}
+		
+		try {
+			
+			lognotes.addAll(dataManager.getLogNotesByDevice(deviceName));
+			logAdapter.notifyDataSetChanged();
 
-	// private class GetLogTask extends AsyncTask<Object, Object, Cursor> {
-	//
-	// DatabaseConnector databaseConnector = new
-	// DatabaseConnector(LogList.this);
-	//
-	// @Override
-	// protected Cursor doInBackground(Object... params) {
-	// databaseConnector.open();
-	// return databaseConnector.getAllLogs();
-	// }
-	//
-	// @Override
-	// protected void onPostExecute(Cursor result) {
-	// logAdapter.changeCursor(result);
-	// databaseConnector.close();
-	// }
-	//
-	// }// end GetLogTask class
+		} catch (NoDataForInputFoundException e) {
+			Toast.makeText(this, "Sorry, the list is empty for this deice.", Toast.LENGTH_LONG).show();
+			finish();
+		}
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
