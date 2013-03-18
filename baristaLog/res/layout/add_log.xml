@@ -1,46 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-   android:layout_width="match_parent" 
-   android:layout_height="wrap_content" android:layout_weight="1">
-   <LinearLayout android:id="@+id/linearLayout"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:orientation="vertical" android:padding="5dp">
-      <EditText android:id="@+id/nameEditText"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content" 
-         android:imeOptions="actionNext" android:hint="@string/hint_name"
-         android:inputType="textPersonName|textCapWords"></EditText>
-      <EditText android:id="@+id/phoneEditText" 
-         android:layout_width="match_parent" 
-         android:layout_height="wrap_content" 
-         android:imeOptions="actionNext" android:hint="@string/hint_phone" 
-         android:inputType="phone"></EditText>
-      <EditText android:id="@+id/emailEditText"
-         android:layout_width="match_parent" 
-         android:layout_height="wrap_content" 
-         android:imeOptions="actionNext" android:hint="@string/hint_email"
-         android:inputType="textEmailAddress"></EditText>
-      <TextView android:id="@+id/addressTextView" 
-         android:color="@android:color/black" android:textSize="18sp"
-         android:paddingTop="10dp" android:layout_width="wrap_content"
-         android:layout_height="wrap_content" 
-         android:text="@string/address"></TextView>
-      <EditText android:id="@+id/streetEditText" 
-         android:layout_width="match_parent" 
-         android:layout_height="wrap_content" 
-         android:imeOptions="actionNext" android:hint="@string/hint_street"
-         android:inputType="textPostalAddress|textCapWords"></EditText>
-      <EditText android:id="@+id/cityEditText" 
-         android:layout_width="match_parent" 
-         android:layout_height="wrap_content" 
-         android:imeOptions="actionDone" android:hint="@string/hint_city"
-         android:inputType="textPostalAddress|textCapWords"></EditText>
-      <Button android:id="@+id/saveContactButton" 
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_marginTop="15dp"
-         android:layout_gravity="center_horizontal"
-         android:text="@string/button_save_contact"></Button>
-   </LinearLayout>
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1" >
+
+    <LinearLayout
+        android:id="@+id/log_note_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:padding="5dp" >
+
+        <TextView
+            android:id="@+id/device_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/date_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp" >
+
+        <EditText
+            android:id="@+id/log_note_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Coffee Notes"
+            android:imeOptions="actionNext"
+            android:inputType="textCapSentences|textMultiLine" />
+
+        <EditText
+            android:id="@+id/blend_name_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Coffee Blend"
+            android:imeOptions="actionNext"
+            android:inputType="text" />
+
+        <LinearLayout
+            android:id="@+id/pre_label_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/pre_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:textSize="18sp"
+                android:color="@android:color/black" />
+
+            <TextView
+                android:id="@+id/pre_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:textSize="18sp"
+                android:color="@android:color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pre_label_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/bloom_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:textSize="18sp"
+                android:color="@android:color/black" />
+
+            <TextView
+                android:id="@+id/bloom_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:textSize="18sp"
+                android:color="@android:color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pre_label_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/brew_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:textSize="18sp"
+                android:color="@android:color/black" />
+
+            <TextView
+                android:id="@+id/brew_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:textSize="18sp"
+                android:color="@android:color/black" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/saveContactButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
+            android:text="@string/button_save_contact" />
+    </LinearLayout>
+
 </ScrollView>
