@@ -47,6 +47,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 	private TextView total_text_view;
 	private TextView total_text_timer;
 	private Button start_stop_button;
+	private Button add_log_button;
 
 	private List<String> subTitles;
 	private List<Integer> subTimes;
@@ -87,6 +88,9 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		total_text_view = (TextView) findViewById(R.id.total_text_view);
 		total_text_timer = (TextView) findViewById(R.id.total_text_timer);
 		start_stop_button = (Button) findViewById(R.id.start_stop_button);
+		add_log_button = (Button) findViewById(R.id.add_log_button);
+		add_log_button.setClickable(false);
+		add_log_button.setBackgroundColor(getResources().getColor(R.color.GRAY));
 
 		subTimes = new ArrayList<Integer>();
 		subTitles = new ArrayList<String>();
@@ -100,6 +104,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		deviceNames.add("pour over");
 
 		start_stop_button.setOnClickListener(this);
+		add_log_button.setOnClickListener(this);
 
 		// setup array adapter for spinner
 		spinner = (Spinner) findViewById(R.id.devices_spinner);
@@ -222,6 +227,10 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		start_stop_button.setText("STOP");
 		start_stop_button.setBackgroundColor(getResources().getColor(
 				R.color.RED));
+		if (add_log_button.isClickable()) {
+			add_log_button.setClickable(false);
+			add_log_button.setBackgroundColor(getResources().getColor(R.color.GRAY));
+		}
 	}
 
 	private void setButtonToStart() {
@@ -312,6 +321,8 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 				stopTimer();
 				// play ding.mp3
 				soundPool.play(soundMap.get(DING_SOUND_ID), 1, 1, 1, 0, 1f);
+				add_log_button.setClickable(true);
+				add_log_button.setBackgroundColor(getResources().getColor(R.color.BLUE));
 
 			} else {
 				mHandler.sendEmptyMessageDelayed(0, 250);
