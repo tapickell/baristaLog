@@ -31,7 +31,7 @@ public class LogAdapter extends ArrayAdapter<LogNote> {
 		}
 		
 		LogNote lognote = this.getItem(position);
-		text.setText(lognote.getNotes());	// this should probably be more of a name b/c this is setting the android text1
+		text.setText(lognote.getNotes());	// TODO this should probably be more of a name b/c this is setting the android text1
 		
 		return listItem;		
 		
