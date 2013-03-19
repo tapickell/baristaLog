@@ -190,6 +190,10 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 			break;
 
 		case R.id.log_list_view:
+			if (add_log_button.isClickable()) {
+				add_log_button.setClickable(false);
+				add_log_button.setBackgroundColor(getResources().getColor(R.color.GRAY));
+			}
 			launchLogListView();
 			break;
 			
@@ -203,10 +207,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 	private void launchLogListView() {
 		//need to reset button state so back button doesnt reveal blue clickable button
 		//this doesnt seem to work ??
-		if (add_log_button.isClickable()) {
-			add_log_button.setClickable(false);
-			add_log_button.setBackgroundColor(getResources().getColor(R.color.GRAY));
-		}
+		
 		Intent intent = new Intent("me.toddpickell.baristalog.LOGLISTVIEW");
 		intent.putExtra("device_name", device.getDevice_type());
 		startActivity(intent);
