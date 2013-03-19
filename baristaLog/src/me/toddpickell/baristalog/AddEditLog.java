@@ -1,14 +1,14 @@
 package me.toddpickell.baristalog;
 
 import java.util.Date;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.inputmethod.InputMethodManager;
+import android.text.format.DateFormat;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -34,11 +34,12 @@ public class AddEditLog extends Activity {
 
 		coffee_notes.setMaxLines(2);
 		// I am pretty sure this does nothing b/c it is an edittext w/ multiline and this is for textview
-		
 		Date date = new Date();
+		java.text.DateFormat df = android.text.format.DateFormat.getDateFormat(this);
+
 		device_label.setText(deviceName.substring(0, 1).toUpperCase()
 				+ deviceName.substring(1));
-		date_label.setText(date.toString());
+		date_label.setText(df.format(date));
 
 		LinearLayout number_pickers_container = (LinearLayout) findViewById(R.id.number_pickers_container);
 		TextView tamp_label = (TextView) findViewById(R.id.tamp_label);
