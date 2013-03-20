@@ -1,5 +1,6 @@
 package me.toddpickell.baristalog;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -13,10 +14,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AddEditLog extends Activity {
 
 	private String deviceName;
+	private ArrayList<Integer> device_sub_times;
+	private ArrayList<String> device_sub_titles;
 
 	@SuppressLint({ "NewApi", "DefaultLocale" })
 	@Override
@@ -25,12 +29,16 @@ public class AddEditLog extends Activity {
 		setContentView(R.layout.add_log);
 
 		deviceName = getIntent().getStringExtra("device_name");
+		device_sub_times = getIntent().getIntegerArrayListExtra("device_sub_times");
+		device_sub_titles = getIntent().getStringArrayListExtra("device_sub_titles");
 
 		TextView device_label = (TextView) findViewById(R.id.device_label);
 		TextView date_label = (TextView) findViewById(R.id.date_label);
 		EditText coffee_notes = (EditText) findViewById(R.id.log_note_edit);
 		EditText coffee_blend = (EditText) findViewById(R.id.blend_name_edit);
-
+		TextView pre_label = (TextView) findViewById(R.id.pre_label);
+		TextView bloom_label = (TextView) findViewById(R.id.bloom_label);
+		TextView brew_label = (TextView) findViewById(R.id.brew_label);
 
 		coffee_notes.setMaxLines(2);
 		// I am pretty sure this does nothing b/c it is an edittext w/ multiline and this is for textview
@@ -38,6 +46,26 @@ public class AddEditLog extends Activity {
 		java.text.DateFormat df = android.text.format.DateFormat.getDateFormat(this);
 
 		device_label.setText(formatToCapWords(deviceName));
+		
+		if (!device_sub_titles.isEmpty()) {
+			//threw a null pointer exception??
+			try {
+				pre_label.setText(device_sub_titles.get(0));
+				bloom_label.setText(device_sub_titles.get(1));
+				if (device_sub_titles.size() > 2) {
+					brew_label.setText(device_sub_titles.get(3));
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				Toast.makeText(this,
+						"Sorry, you threw a null pointer dumb-ass.",
+						Toast.LENGTH_LONG).show();
+			}
+		} else {
+			Toast.makeText(this,
+					"Sorry, you ArrayList is empty dumb-ass.",
+					Toast.LENGTH_LONG).show();
+		}
 		date_label.setText(df.format(date));
 
 		LinearLayout number_pickers_container = (LinearLayout) findViewById(R.id.number_pickers_container);

@@ -205,11 +205,11 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 	}
 
 	private void launchLogListView() {
-		//need to reset button state so back button doesnt reveal blue clickable button
-		//this doesnt seem to work ??
-		
+
 		Intent intent = new Intent("me.toddpickell.baristalog.LOGLISTVIEW");
 		intent.putExtra("device_name", device.getDevice_type());
+		intent.putIntegerArrayListExtra("device_sub_times", (ArrayList<Integer>) device.getSubTimes());
+		intent.putStringArrayListExtra("device_sub_titles", (ArrayList<String>) device.getSubTitles());
 		startActivity(intent);
 		
 	}
