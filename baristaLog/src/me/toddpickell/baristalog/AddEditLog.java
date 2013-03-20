@@ -37,8 +37,7 @@ public class AddEditLog extends Activity {
 		Date date = new Date();
 		java.text.DateFormat df = android.text.format.DateFormat.getDateFormat(this);
 
-		device_label.setText(deviceName.substring(0, 1).toUpperCase()
-				+ deviceName.substring(1));
+		device_label.setText(formatToCapWords(deviceName));
 		date_label.setText(df.format(date));
 
 		LinearLayout number_pickers_container = (LinearLayout) findViewById(R.id.number_pickers_container);
@@ -91,6 +90,26 @@ public class AddEditLog extends Activity {
 
 		}
 
+	}
+
+	private String formatToCapWords(String words) {
+		int space = words.indexOf(" ");
+		String returnString;
+		
+		if (space > 0) {
+			returnString = capWord(words.substring(0, space)) + " " + capWord(words.substring(space + 1));
+			
+		} else {
+			returnString = capWord(words);
+		}
+		
+		return returnString;
+	}
+
+	@SuppressLint("DefaultLocale")
+	private String capWord(String word) {
+		
+		return word.substring(0, 1).toUpperCase() + word.substring(1);
 	}
 
 }
