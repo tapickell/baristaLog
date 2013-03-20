@@ -27,6 +27,7 @@ public class DeviceState extends Activity {
 	private Integer default_pre, default_bloom, default_brew;
 	private Integer pre, bloom, brew;
 	private Integer total;
+	private Integer numberLabels;
 	private String firstSub, secondSub, thirdSub;
 	private Boolean countdown = true;
 	private Context context;
@@ -53,7 +54,7 @@ public class DeviceState extends Activity {
 	private void initDeviceWithName() {
 		if (deviceNames.contains(device_type)) {
 			// then device name is in list for shared preferences
-			
+			numberLabels = device_type.equals(aero) ? 2 : 3;
 			device = context.getSharedPreferences(device_type, 0); // getting null pointer from here not sure why yet
 			
 			if (device.contains("pre") && device.contains("default_pre")) {
@@ -71,6 +72,7 @@ public class DeviceState extends Activity {
 		} else if (device_type.equals(espr)) {
 			// espresso device doesn't have changeable settings 
 			// so nothing is saved to shared preferences
+			numberLabels = 0;
 			setupForEspressoDevice();
 		}
 	}
@@ -212,6 +214,7 @@ public class DeviceState extends Activity {
 		secondSub = "Bloom";
 		thirdSub = "Brew";
 		countdown = true;
+		numberLabels = 3;
 	}
 
 	private void setupForFrenchPressDevice() {
@@ -227,6 +230,7 @@ public class DeviceState extends Activity {
 		secondSub = "Brew";
 		thirdSub = "Plunge";
 		countdown = true;
+		numberLabels = 3;
 	}
 
 	private void setupForPourOverDevice() {
@@ -242,6 +246,7 @@ public class DeviceState extends Activity {
 		secondSub = "Bloom";
 		thirdSub = "Brew";
 		countdown = true;
+		numberLabels = 3;
 	}
 
 	private void setupForAeroDevice() {
@@ -257,6 +262,7 @@ public class DeviceState extends Activity {
 		secondSub = "Plunge";
 		thirdSub = "";
 		countdown = true;
+		numberLabels = 2;
 	}
 
 	private void setupForEspressoDevice() {
@@ -272,6 +278,7 @@ public class DeviceState extends Activity {
 		secondSub = "";
 		thirdSub = "";
 		countdown = false;
+		numberLabels = 0;
 	}
 	
 	public void resetDeviceToDefaults() {
@@ -345,6 +352,11 @@ public class DeviceState extends Activity {
 		getDeviceSettingsFromFile();
 		addDeviceSettingsToLists();
 	}
+
+	public Integer getNumberLabels() {
+		return numberLabels;
+	}
+
 }
 
 

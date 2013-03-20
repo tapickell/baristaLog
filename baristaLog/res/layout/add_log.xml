@@ -97,7 +97,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/pre_label_container"
+            android:id="@+id/label_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
@@ -109,22 +109,7 @@
                 android:paddingTop="10dp"
                 android:textSize="18sp"
                 android:color="@android:color/black" />
-
-            <TextView
-                android:id="@+id/pre_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:textSize="18sp"
-                android:color="@android:color/black" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/bloom_label_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
+            
             <TextView
                 android:id="@+id/bloom_label"
                 android:layout_width="wrap_content"
@@ -132,22 +117,7 @@
                 android:paddingTop="10dp"
                 android:textSize="18sp"
                 android:color="@android:color/black" />
-
-            <TextView
-                android:id="@+id/bloom_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="10dp"
-                android:textSize="18sp"
-                android:color="@android:color/black" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/brew_label_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" >
-
+            
             <TextView
                 android:id="@+id/brew_label"
                 android:layout_width="wrap_content"
@@ -156,6 +126,32 @@
                 android:textSize="18sp"
                 android:color="@android:color/black" />
 
+            
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/time_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/pre_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:textSize="18sp"
+                android:color="@android:color/black" />
+            
+
+            <TextView
+                android:id="@+id/bloom_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:textSize="18sp"
+                android:color="@android:color/black" />
+            
             <TextView
                 android:id="@+id/brew_time"
                 android:layout_width="wrap_content"
@@ -163,7 +159,9 @@
                 android:paddingTop="10dp"
                 android:textSize="18sp"
                 android:color="@android:color/black" />
+            
         </LinearLayout>
+
 
         <Button
             android:id="@+id/save_log_button"

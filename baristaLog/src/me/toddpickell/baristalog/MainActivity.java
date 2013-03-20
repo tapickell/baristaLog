@@ -116,7 +116,8 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		spinner.setAdapter(adapter);
 
 		total_text_view.setText("Total");
-
+//		setStateForDevice(deviceNames.get(spinner.getSelectedItemPosition()));
+		//trying this to set device from on create so it avoids null pointer
 	}
 	
 	@Override
@@ -153,7 +154,9 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 
 	private void launchAddEditLogView() {
 		Intent intent = new Intent("me.toddpickell.baristalog.ADDEDITLOGVIEW");
+
 		intent.putExtra("device_name", device.getDevice_type());
+		
 		startActivity(intent);
 	}
 
@@ -208,8 +211,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 
 		Intent intent = new Intent("me.toddpickell.baristalog.LOGLISTVIEW");
 		intent.putExtra("device_name", device.getDevice_type());
-		intent.putIntegerArrayListExtra("device_sub_times", (ArrayList<Integer>) device.getSubTimes());
-		intent.putStringArrayListExtra("device_sub_titles", (ArrayList<String>) device.getSubTitles());
+		
 		startActivity(intent);
 		
 	}

@@ -2,6 +2,7 @@ package me.toddpickell.baristalog;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
@@ -10,6 +11,7 @@ import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -21,6 +23,12 @@ public class AddEditLog extends Activity {
 	private String deviceName;
 	private ArrayList<Integer> device_sub_times;
 	private ArrayList<String> device_sub_titles;
+	private String device_sub_title_one;
+	private String device_sub_title_two;
+	private String device_sub_title_three;
+	private DeviceState device;
+	private List<Integer> subTimes;
+	private List<String> subTitles;
 
 	@SuppressLint({ "NewApi", "DefaultLocale" })
 	@Override
@@ -29,8 +37,10 @@ public class AddEditLog extends Activity {
 		setContentView(R.layout.add_log);
 
 		deviceName = getIntent().getStringExtra("device_name");
-		device_sub_times = getIntent().getIntegerArrayListExtra("device_sub_times");
-		device_sub_titles = getIntent().getStringArrayListExtra("device_sub_titles");
+		Log.d("DEBUG_ME!", "device name: " + deviceName) ;
+		device = new DeviceState(this, deviceName);
+		subTimes = device.getSubTimes();
+		subTitles = device.getSubTitles();
 
 		TextView device_label = (TextView) findViewById(R.id.device_label);
 		TextView date_label = (TextView) findViewById(R.id.date_label);
@@ -44,28 +54,15 @@ public class AddEditLog extends Activity {
 		// I am pretty sure this does nothing b/c it is an edittext w/ multiline and this is for textview
 		Date date = new Date();
 		java.text.DateFormat df = android.text.format.DateFormat.getDateFormat(this);
-
 		device_label.setText(formatToCapWords(deviceName));
 		
-		if (!device_sub_titles.isEmpty()) {
-			//threw a null pointer exception??
-			try {
-				pre_label.setText(device_sub_titles.get(0));
-				bloom_label.setText(device_sub_titles.get(1));
-				if (device_sub_titles.size() > 2) {
-					brew_label.setText(device_sub_titles.get(3));
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				Toast.makeText(this,
-						"Sorry, you threw a null pointer dumb-ass.",
-						Toast.LENGTH_LONG).show();
-			}
-		} else {
-			Toast.makeText(this,
-					"Sorry, you ArrayList is empty dumb-ass.",
-					Toast.LENGTH_LONG).show();
-		}
+		pre_label.setText(subTitles.get(0));
+		bloom_label.setText(subTitles.get(1));
+		Log.d("DEBUG_ME!", "title one: " + device_sub_title_one + " title two: " + device_sub_title_two) ;
+		if (device.getNumberLabels() > 2) {
+			brew_label.setText(subTitles.get(2));
+			Log.d("DEBUG_ME!", "title three: " + device_sub_title_three) ;
+		}		
 		date_label.setText(df.format(date));
 
 		LinearLayout number_pickers_container = (LinearLayout) findViewById(R.id.number_pickers_container);
