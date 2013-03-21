@@ -26,7 +26,6 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.EVSA.GUbu138802.Airpush;
 import com.google.ads.Ad;
 import com.google.ads.AdListener;
 import com.google.ads.AdRequest;
@@ -63,37 +62,43 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 	private HashMap<Integer, Integer> soundMap;
 	private AdView adView;
 
-	@SuppressLint("UseSparseArrays")
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		adView = (AdView) findViewById(R.id.ad);
-		adView.setAdListener(this);
-		AdRequest adRequest = new AdRequest();
-		adRequest.addKeyword("coffee");
-		adView.loadAd(adRequest);
-		
+		initializeAds();
+		initializeSound();
 
-		setVolumeControlStream(AudioManager.STREAM_MUSIC);
-		soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-		soundMap = new HashMap<Integer, Integer>();
-		soundMap.put(TICK_SOUND_ID, soundPool.load(this, R.raw.tick, 1));
-		soundMap.put(DING_SOUND_ID, soundPool.load(this, R.raw.ding, 1));
-		soundMap.put(CLICK_SOUND_ID, soundPool.load(this, R.raw.click, 1));
-
-		sub_text_view = (TextView) findViewById(R.id.sub_text_view);
-		sub_text_timer = (TextView) findViewById(R.id.sub_text_timer);
-		total_text_view = (TextView) findViewById(R.id.total_text_view);
-		total_text_timer = (TextView) findViewById(R.id.total_text_timer);
-		start_stop_button = (Button) findViewById(R.id.start_stop_button);
-		add_log_button = (Button) findViewById(R.id.add_log_button);
-		add_log_button.setClickable(false);
-		add_log_button.setBackgroundColor(getResources().getColor(R.color.GRAY));
+		getViews();
+		initializeSaveLogButton();
 
 		subTimes = new ArrayList<Integer>();
 		subTitles = new ArrayList<String>();
+		initializeDeviceNamesList();
+
+		start_stop_button.setOnClickListener(this);
+		add_log_button.setOnClickListener(this);
+
+		initializeDeviceNameSpinner();
+
+		total_text_view.setText("Total");
+
+	}
+
+	/****  Initialize Methods used in onCreate ****/
+	private void initializeDeviceNameSpinner() {
+		spinner = (Spinner) findViewById(R.id.devices_spinner);
+		spinner.setOnItemSelectedListener(this);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+				this, R.array.devices_array,
+				android.R.layout.simple_spinner_item);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);
+	}
+
+	private void initializeDeviceNamesList() {
 		deviceNames = new ArrayList<String>();
 
 		deviceNames.add("aeropress");
@@ -102,31 +107,41 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		deviceNames.add("espresso");
 		deviceNames.add("french press");
 		deviceNames.add("pour over");
-
-		start_stop_button.setOnClickListener(this);
-		add_log_button.setOnClickListener(this);
-
-		// setup array adapter for spinner
-		spinner = (Spinner) findViewById(R.id.devices_spinner);
-		spinner.setOnItemSelectedListener(this);
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-				this, R.array.devices_array,
-				android.R.layout.simple_spinner_item);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(adapter);
-
-		total_text_view.setText("Total");
-//		setStateForDevice(deviceNames.get(spinner.getSelectedItemPosition()));
-		//trying this to set device from on create so it avoids null pointer
-	}
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		
-		setStateForDevice(deviceNames.get(spinner.getSelectedItemPosition()));
 	}
 
+	private void getViews() {
+		sub_text_view = (TextView) findViewById(R.id.sub_text_view);
+		sub_text_timer = (TextView) findViewById(R.id.sub_text_timer);
+		total_text_view = (TextView) findViewById(R.id.total_text_view);
+		total_text_timer = (TextView) findViewById(R.id.total_text_timer);
+		start_stop_button = (Button) findViewById(R.id.start_stop_button);
+	}
+
+	private void initializeSaveLogButton() {
+		add_log_button = (Button) findViewById(R.id.add_log_button);
+		add_log_button.setClickable(false);
+		add_log_button.setBackgroundColor(getResources().getColor(R.color.GRAY));
+	}
+
+	@SuppressLint("UseSparseArrays")
+	private void initializeSound() {
+		setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
+		soundMap = new HashMap<Integer, Integer>();
+		soundMap.put(TICK_SOUND_ID, soundPool.load(this, R.raw.tick, 1));
+		soundMap.put(DING_SOUND_ID, soundPool.load(this, R.raw.ding, 1));
+		soundMap.put(CLICK_SOUND_ID, soundPool.load(this, R.raw.click, 1));
+	}
+
+	private void initializeAds() {
+		adView = (AdView) findViewById(R.id.ad);
+		adView.setAdListener(this);
+		AdRequest adRequest = new AdRequest();
+		adRequest.addKeyword("coffee");
+		adView.loadAd(adRequest);
+	}
+
+	/**** Google ad method overrides ****/
 	@Override
     public void onFailedToReceiveAd(Ad ad, ErrorCode errorCode) {
         Log.d("ADD_ERROR", "error code: " + errorCode.toString());
@@ -137,33 +152,86 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
         Log.d("RCV_AD", "ad recvd: " + ad.toString());
     }
 
+    /**** Button interaction methods ****/
 	@Override
 	public void onClick(View view) {
 		if (view.equals(start_stop_button)) {
-			if (timerIsStopped()) {
-				startTimer();
-			} else {
-				stopTimer();
-			}
-			soundPool.play(soundMap.get(CLICK_SOUND_ID), 1, 1, 1, 0, 1f);
+			startStopButtonPress();
 
 		} else if (view.equals(add_log_button)) {
 			launchAddEditLogView();			
 		}
 	}
 
+	private void startStopButtonPress() {
+		if (timerIsStopped()) {
+			startTimer();
+		} else {
+			stopTimer();
+		}
+		soundPool.play(soundMap.get(CLICK_SOUND_ID), 1, 1, 1, 0, 1f);
+	}
+
+	private void enableSaveLogButton() {
+		if (!add_log_button.isClickable()) {
+			add_log_button.setClickable(true);
+			add_log_button.setBackgroundColor(getResources().getColor(R.color.BLUE));
+		}
+	}
+	
+	private void disableSaveLogButton() {
+		if (add_log_button.isClickable()) {
+			add_log_button.setClickable(false);
+			add_log_button.setBackgroundColor(getResources().getColor(R.color.GRAY));
+		}
+	}
+	
+	private void setButtonToStop() {
+		start_stop_button.setText("STOP");
+		start_stop_button.setBackgroundColor(getResources().getColor(
+				R.color.RED));
+		disableSaveLogButton();
+	}
+
+	private void setButtonToStart() {
+		start_stop_button.setText("START");
+		start_stop_button.setBackgroundColor(getResources().getColor(
+				R.color.GREEN));
+	}
+	
+	/**** activity launching methods ****/
 	private void launchAddEditLogView() {
 		Intent intent = new Intent("me.toddpickell.baristalog.ADDEDITLOGVIEW");
-
 		intent.putExtra("device_name", device.getDevice_type());
-		
 		startActivity(intent);
 	}
 
+	private void launchLogListView() {
+		startIntentByName("LOGLISTVIEW");
+	}
+
+	private void launchDeviceSettingsMenu() {
+		if (device.getDevice_type().equals(deviceNames.get(3))) {
+			// do nothing for espresso
+		} else {
+			startIntentByName("DEVICESETTINGSMENU");
+		}
+	}
+	
+	private void startIntentByName(String activityName) {
+		Intent intent = new Intent("me.toddpickell.baristalog." + activityName);
+		intent.putExtra("device_name", device.getDevice_type());
+		startActivity(intent);
+	}
+	
+	/**** timer interaction methods ****/
 	private void stopTimer() {
 		mHandler.removeMessages(0);
 		mTotalTime = 0;
 		setButtonToStart();
+		if (device.getDevice_type().equals(deviceNames.get(3))) {
+			enableSaveLogButton();
+		}
 	}
 
 	private void startTimer() {
@@ -177,6 +245,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		return !mHandler.hasMessages(0);
 	}
 
+	/****  options menu interactions ****/
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -193,10 +262,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 			break;
 
 		case R.id.log_list_view:
-			if (add_log_button.isClickable()) {
-				add_log_button.setClickable(false);
-				add_log_button.setBackgroundColor(getResources().getColor(R.color.GRAY));
-			}
+			disableSaveLogButton();
 			launchLogListView();
 			break;
 			
@@ -205,25 +271,6 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		}
 
 		return false;
-	}
-
-	private void launchLogListView() {
-
-		Intent intent = new Intent("me.toddpickell.baristalog.LOGLISTVIEW");
-		intent.putExtra("device_name", device.getDevice_type());
-		
-		startActivity(intent);
-		
-	}
-
-	private void launchDeviceSettingsMenu() {
-		if (device.getDevice_type().equals(deviceNames.get(3))) {
-			// do nothing for espresso
-		} else {
-			Intent intent = new Intent("me.toddpickell.baristalog.DEVICESETTINGSMENU");
-			intent.putExtra("device_name", device.getDevice_type());
-			startActivity(intent);
-		}
 	}
 
 	@Override
@@ -240,24 +287,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 
 	}
 
-	private void setButtonToStop() {
-		start_stop_button.setText("STOP");
-		start_stop_button.setBackgroundColor(getResources().getColor(
-				R.color.RED));
-		if (add_log_button.isClickable()) {
-			add_log_button.setClickable(false);
-			add_log_button.setBackgroundColor(getResources().getColor(R.color.GRAY));
-		}
-	}
 
-	private void setButtonToStart() {
-		start_stop_button.setText("START");
-		start_stop_button.setBackgroundColor(getResources().getColor(
-				R.color.GREEN));
-		if (device.getDevice_type().equals(deviceNames.get(3))) {
-			launchAddEditLogView();
-		}
-	}
 
 	public Context getContext() {
 		return this;
@@ -297,41 +327,28 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 				mTotalTime += current - mStart;
 			}
 			mStart = current;
-			// Log.d("DEBUGGERY", "Current: " + current/1000 + " TotalTime: " +
-			// mTotalTime + " mStart: " + mStart/1000 + " Total: " +
-			// ((mTotalTime/1000) + total));
-			// Log.d("DEBUGGERY", "mSubTime: " + ((mTotalTime/1000) +
-			// mSubTime));
 
 			if (((mTotalTime / 1000) + mSubTime) <= 0) {
 				// play tick.ogg
 				soundPool.play(soundMap.get(TICK_SOUND_ID), 1, 1, 1, 0, 1f);
 
-				// change sub title and time if there is one
 				if (!subTitles.isEmpty()) {
 					sub_text_view.setText(subTitles.get(0));
 					subTitles.remove(0);
 					if (!subTimes.isEmpty()) {
-						// Log.d("DEBUGGERY", "mSubTime before change:" +
-						// mSubTime);
+
 						mSubTime = subTimes.get(0);
 						subTimes.remove(0);
-						// Log.d("DEBUGGERY", "mSubTime after change:" +
-						// mSubTime);
-						// Log.d("DEGUGGERY", "mTotalTime/1000: " +
-						// (mTotalTime/1000));
 						mSubTime -= (mTotalTime / 1000);
-						// Log.d("DEBUGGERY", "mSubTime after change:" +
-						// mSubTime);
-						// Log.d("DEBUGGERY", "mSubTime inside is: " +
-						// ((mTotalTime/1000) + mSubTime));
 					}
 				}
 			}
+			
 			if (device.getCountdown()) {
 				sub_text_timer.setText(DateUtils
 						.formatElapsedTime((mTotalTime / 1000) + mSubTime));
 			}
+			
 			total_text_timer
 					.setText(DateUtils.formatElapsedTime((mTotalTime / 1000)
 							+ device.getTotal()));
@@ -341,8 +358,8 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 				stopTimer();
 				// play ding.mp3
 				soundPool.play(soundMap.get(DING_SOUND_ID), 1, 1, 1, 0, 1f);
-				add_log_button.setClickable(true);
-				add_log_button.setBackgroundColor(getResources().getColor(R.color.BLUE));
+				
+				enableSaveLogButton();
 
 			} else {
 				mHandler.sendEmptyMessageDelayed(0, 250);
@@ -350,6 +367,14 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		};
 	};
 
+	/**** Activity state method overrides ****/
+	@Override
+	protected void onResume() {
+		super.onResume();
+		setStateForDevice(deviceNames.get(spinner.getSelectedItemPosition()));
+		// TODO find a better way to do this 
+	}
+	
 	@Override
 	public void onDismissScreen(Ad arg0) {
 

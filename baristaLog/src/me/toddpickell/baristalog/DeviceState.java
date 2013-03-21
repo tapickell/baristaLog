@@ -274,7 +274,7 @@ public class DeviceState extends Activity {
 		default_pre = 0;
 		default_bloom = 0;
 		default_brew = 0;
-		firstSub = "";
+		firstSub = "Time";
 		secondSub = "";
 		thirdSub = "";
 		countdown = false;
