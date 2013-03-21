@@ -49,6 +49,10 @@ public class AddEditLog extends Activity {
 		TextView pre_label = (TextView) findViewById(R.id.pre_label);
 		TextView bloom_label = (TextView) findViewById(R.id.bloom_label);
 		TextView brew_label = (TextView) findViewById(R.id.brew_label);
+		TextView pre_label_time = (TextView) findViewById(R.id.pre_label_time);
+		TextView bloom_label_time = (TextView) findViewById(R.id.bloom_label_time);
+		TextView brew_label_time = (TextView) findViewById(R.id.brew_label_time);
+		
 
 		coffee_notes.setMaxLines(2);
 		// I am pretty sure this does nothing b/c it is an edittext w/ multiline and this is for textview
@@ -57,10 +61,13 @@ public class AddEditLog extends Activity {
 		device_label.setText(formatToCapWords(deviceName));
 		
 		pre_label.setText(subTitles.get(0));
+		pre_label_time.setText(subTimes.get(0));// crashes like a little bitch!!!!!
 		bloom_label.setText(subTitles.get(1));
+		bloom_label_time.setText(subTimes.get(1));
 		Log.d("DEBUG_ME!", "title one: " + device_sub_title_one + " title two: " + device_sub_title_two) ;
 		if (device.getNumberLabels() > 2) {
 			brew_label.setText(subTitles.get(2));
+			brew_label_time.setText(subTimes.get(2));
 			Log.d("DEBUG_ME!", "title three: " + device_sub_title_three) ;
 		}		
 		date_label.setText(df.format(date));
