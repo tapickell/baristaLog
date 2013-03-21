@@ -39,6 +39,10 @@ public class AddEditLog extends Activity {
 		deviceName = getIntent().getStringExtra("device_name");
 		Log.d("DEBUG_ME!", "device name: " + deviceName) ;
 		device = new DeviceState(this, deviceName);
+		
+		if (device.getDevice_type().equals("espresso")) {
+			
+		} else {
 		subTimes = device.getSubTimes();
 		subTitles = device.getSubTitles();
 
@@ -149,7 +153,29 @@ public class AddEditLog extends Activity {
 			}
 
 		} else {
-
+			//upgrade your device, you will enjoy it so much more
+			EditText rating_picker = new EditText(this);
+			EditText temp_picker = new EditText(this);
+			EditText grind_picker = new EditText(this);
+			
+			rating_picker.setHint("1-5");
+			temp_picker.setHint("150-225");
+			grind_picker.setHint("1-40");
+			
+			rating_picker.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			temp_picker.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			grind_picker.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			number_pickers_container.addView(rating_picker);
+			number_pickers_container.addView(temp_picker);
+			number_pickers_container.addView(grind_picker);
+			
+			if (deviceName.equals("espresso")) {
+				EditText tamp_picker = new EditText(this);
+				tamp_picker.setHint("20-40");
+				tamp_picker.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+				number_pickers_container.addView(tamp_picker);
+			}
+		}
 		}
 
 	}

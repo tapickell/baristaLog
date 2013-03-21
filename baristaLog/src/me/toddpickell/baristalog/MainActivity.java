@@ -254,6 +254,9 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		start_stop_button.setText("START");
 		start_stop_button.setBackgroundColor(getResources().getColor(
 				R.color.GREEN));
+		if (device.getDevice_type().equals(deviceNames.get(3))) {
+			launchAddEditLogView();
+		}
 	}
 
 	public Context getContext() {
