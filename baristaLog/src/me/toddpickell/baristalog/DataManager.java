@@ -73,6 +73,7 @@ public class DataManager {
 			db.beginTransaction();
 			noteId = logDao.save(lognote);
 			db.setTransactionSuccessful();
+			Log.d("DATA_MANAGER", "Database Transactions Successful");
 			
 		} catch (SQLException e) {
 			Log.e("DATA_MANAGER", "Error saving log note (transaction rolled back)", e);
@@ -94,6 +95,7 @@ public class DataManager {
 				logDao.delete(lognote);
 			}
 			db.setTransactionSuccessful();
+			Log.d("DATA_MANAGER", "Database Transactions Successful");
 			result = true;
 			
 		} catch (SQLException e) {

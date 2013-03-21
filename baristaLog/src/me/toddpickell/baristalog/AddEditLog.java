@@ -11,13 +11,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
-public class AddEditLog extends Activity {
+public class AddEditLog extends Activity implements OnClickListener {
 
 	private String deviceName;
 	private ArrayList<Integer> device_sub_times;
@@ -39,7 +40,7 @@ public class AddEditLog extends Activity {
 	private TextView bloom_label_time;
 	private TextView brew_label_time;
 	private Button save_log_button;
-	
+
 	private DataManager data_manager;
 	private NumberPicker rating_picker;
 	private NumberPicker temp_picker;
@@ -61,7 +62,7 @@ public class AddEditLog extends Activity {
 		device = new DeviceState(this, deviceName);
 
 		data_manager = new DataManager(this);
-				
+
 		subTimes = device.getSubTimes();
 		subTitles = device.getSubTitles();
 
@@ -73,7 +74,9 @@ public class AddEditLog extends Activity {
 		bloom_label = (TextView) findViewById(R.id.bloom_label);
 		brew_label = (TextView) findViewById(R.id.brew_label);
 		save_log_button = (Button) findViewById(R.id.save_log_button);
-		
+
+		save_log_button.setOnClickListener(this);
+
 		LinearLayout time_container = (LinearLayout) findViewById(R.id.time_container);
 
 		pre_label_time = new TextView(this);
@@ -221,24 +224,27 @@ public class AddEditLog extends Activity {
 		}
 
 	}
-	
-    /**** Button interaction methods ****/
+
+	/**** Button interaction methods ****/
 
 	public void onClick(View view) {
 		if (view.equals(save_log_button)) {
+			Log.d("WTF_SQL", "called in onClick from save log button");// save_log_button
 			saveLogToDB();
 
 		} else {
-			//if had another button		
+			// if had another button
 		}
 	}
 
-	private void saveLogToDB() {	
+	private void saveLogToDB() {
 		saveLogNote(createLogNote());
 	}
 
 	private void saveLogNote(LogNote log_note) {
-		data_manager.saveLogNote(log_note);
+		Log.d("SAVE_DB", "LogNote out => " + log_note.toString());
+		Long returned_id = data_manager.saveLogNote(log_note);
+		Log.d("SAVE_DB", "the returned id from saveLogNote: " + returned_id);
 	}
 
 	@SuppressLint("NewApi")
@@ -248,30 +254,20 @@ public class AddEditLog extends Activity {
 		log_note.setNotes(coffee_notes.getText().toString());
 		log_note.setBlend(coffee_blend.getText().toString());
 		log_note.setDate(date_label.getText().toString());
-		log_note.setRating(Build.VERSION.SDK_INT >= 11 ? rating_picker.getValue() : Integer.parseInt(rating_edit_text.getText().toString()));
-		log_note.setTemp(Build.VERSION.SDK_INT >= 11 ? temp_picker.getValue() : Integer.parseInt(temp_edit_text.getText().toString()));
-		log_note.setGrind(Build.VERSION.SDK_INT >= 11 ? grind_picker.getValue() : Integer.parseInt(grind_edit_text.getText().toString()));
-		//how to handle tamp???
-		// !!! this is kinda ugly !!!  
-		/* I run into this here and there b/c of differences in data between 
-		 * espresso, aeropress, and the rest of the devices. 
-		 */
-		if (deviceName.equals("espresso")) {
-			log_note.setTamp(Build.VERSION.SDK_INT >= 11 ? tamp_picker.getValue() : Integer.parseInt(tamp_edit_text.getText().toString()));
-			log_note.setPre_time(Integer.parseInt(pre_label_time.toString()));
-			// if espresso storing time from timer in pre time and nothing else
-			// ? can I store this in db without setting all fields ?
-		} else {
-			//how to handle aeropress
-			log_note.setPre_time(subTimes.get(0));
-			if (subTimes.size() > 1) {
-				log_note.setBloom_time(subTimes.get(1));
-			}
-			if (subTimes.size() > 2) {
-				log_note.setBrew_time(subTimes.get(2));
-			}
-		}
-		
+		log_note.setRating(Build.VERSION.SDK_INT >= 11 ? rating_picker
+				.getValue() : Integer.parseInt(rating_edit_text.getText()
+				.toString()));
+		log_note.setTemp(Build.VERSION.SDK_INT >= 11 ? temp_picker.getValue()
+				: Integer.parseInt(temp_edit_text.getText().toString()));
+		log_note.setGrind(Build.VERSION.SDK_INT >= 11 ? grind_picker.getValue()
+				: Integer.parseInt(grind_edit_text.getText().toString()));
+
+		/// !!! this is a bit ugly !!!
+		log_note.setTamp(deviceName.equals("espresso") ? Build.VERSION.SDK_INT >= 11 ? tamp_picker.getValue() : Integer.parseInt(tamp_edit_text.getText().toString()) : 0);
+		log_note.setPre_time(Integer.parseInt(pre_label_time.getText().toString()));
+		log_note.setBloom_time(subTimes.size() > 1 ? subTimes.get(1) : 0);
+		log_note.setBrew_time(subTimes.size() > 2 ? subTimes.get(2) : 0);
+
 		return log_note;
 	}
 
