@@ -3,20 +3,19 @@ package me.toddpickell.baristalog;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class AddEditLog extends Activity {
 
@@ -39,6 +38,17 @@ public class AddEditLog extends Activity {
 	private TextView pre_label_time;
 	private TextView bloom_label_time;
 	private TextView brew_label_time;
+	private Button save_log_button;
+	
+	private DataManager data_manager;
+	private NumberPicker rating_picker;
+	private NumberPicker temp_picker;
+	private NumberPicker grind_picker;
+	private NumberPicker tamp_picker;
+	private EditText rating_edit_text;
+	private EditText temp_edit_text;
+	private EditText grind_edit_text;
+	private EditText tamp_edit_text;
 
 	@SuppressLint({ "NewApi", "DefaultLocale" })
 	@Override
@@ -50,6 +60,8 @@ public class AddEditLog extends Activity {
 		Log.d("DEBUG_ME!", "device name: " + deviceName);
 		device = new DeviceState(this, deviceName);
 
+		data_manager = new DataManager(this);
+				
 		subTimes = device.getSubTimes();
 		subTitles = device.getSubTitles();
 
@@ -60,7 +72,8 @@ public class AddEditLog extends Activity {
 		pre_label = (TextView) findViewById(R.id.pre_label);
 		bloom_label = (TextView) findViewById(R.id.bloom_label);
 		brew_label = (TextView) findViewById(R.id.brew_label);
-
+		save_log_button = (Button) findViewById(R.id.save_log_button);
+		
 		LinearLayout time_container = (LinearLayout) findViewById(R.id.time_container);
 
 		pre_label_time = new TextView(this);
@@ -128,9 +141,9 @@ public class AddEditLog extends Activity {
 		TextView tamp_label = (TextView) findViewById(R.id.tamp_label);
 
 		if (Build.VERSION.SDK_INT >= 11) {
-			NumberPicker rating_picker = new NumberPicker(this);
-			NumberPicker temp_picker = new NumberPicker(this);
-			NumberPicker grind_picker = new NumberPicker(this);
+			rating_picker = new NumberPicker(this);
+			temp_picker = new NumberPicker(this);
+			grind_picker = new NumberPicker(this);
 			rating_picker
 					.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 			temp_picker
@@ -166,7 +179,7 @@ public class AddEditLog extends Activity {
 
 			if (deviceName.equals("espresso")) {
 
-				NumberPicker tamp_picker = new NumberPicker(this);
+				tamp_picker = new NumberPicker(this);
 				tamp_picker
 						.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 				tamp_label.setText("Tamp");
@@ -180,34 +193,86 @@ public class AddEditLog extends Activity {
 			}
 
 		} else {
-			// upgrade your device, you will enjoy it so much more
-			EditText rating_picker = new EditText(this);
-			EditText temp_picker = new EditText(this);
-			EditText grind_picker = new EditText(this);
+			rating_edit_text = new EditText(this);
+			temp_edit_text = new EditText(this);
+			grind_edit_text = new EditText(this);
 
-			rating_picker.setHint("1-5");
-			temp_picker.setHint("150-225");
-			grind_picker.setHint("1-40");
+			rating_edit_text.setHint("1-5");
+			temp_edit_text.setHint("150-225");
+			grind_edit_text.setHint("1-40");
 
-			rating_picker.setLayoutParams(new LayoutParams(
+			rating_edit_text.setLayoutParams(new LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-			temp_picker.setLayoutParams(new LayoutParams(
+			temp_edit_text.setLayoutParams(new LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-			grind_picker.setLayoutParams(new LayoutParams(
+			grind_edit_text.setLayoutParams(new LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-			number_pickers_container.addView(rating_picker);
-			number_pickers_container.addView(temp_picker);
-			number_pickers_container.addView(grind_picker);
+			number_pickers_container.addView(rating_edit_text);
+			number_pickers_container.addView(temp_edit_text);
+			number_pickers_container.addView(grind_edit_text);
 
 			if (deviceName.equals("espresso")) {
-				EditText tamp_picker = new EditText(this);
-				tamp_picker.setHint("20-40");
-				tamp_picker.setLayoutParams(new LayoutParams(
+				tamp_edit_text = new EditText(this);
+				tamp_edit_text.setHint("20-40");
+				tamp_edit_text.setLayoutParams(new LayoutParams(
 						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 				number_pickers_container.addView(tamp_picker);
 			}
 		}
 
+	}
+	
+    /**** Button interaction methods ****/
+
+	public void onClick(View view) {
+		if (view.equals(save_log_button)) {
+			saveLogToDB();
+
+		} else {
+			//if had another button		
+		}
+	}
+
+	private void saveLogToDB() {	
+		saveLogNote(createLogNote());
+	}
+
+	private void saveLogNote(LogNote log_note) {
+		data_manager.saveLogNote(log_note);
+	}
+
+	@SuppressLint("NewApi")
+	private LogNote createLogNote() {
+		LogNote log_note = new LogNote();
+		log_note.setDevice(deviceName);
+		log_note.setNotes(coffee_notes.getText().toString());
+		log_note.setBlend(coffee_blend.getText().toString());
+		log_note.setDate(date_label.getText().toString());
+		log_note.setRating(Build.VERSION.SDK_INT >= 11 ? rating_picker.getValue() : Integer.parseInt(rating_edit_text.getText().toString()));
+		log_note.setTemp(Build.VERSION.SDK_INT >= 11 ? temp_picker.getValue() : Integer.parseInt(temp_edit_text.getText().toString()));
+		log_note.setGrind(Build.VERSION.SDK_INT >= 11 ? grind_picker.getValue() : Integer.parseInt(grind_edit_text.getText().toString()));
+		//how to handle tamp???
+		// !!! this is kinda ugly !!!  
+		/* I run into this here and there b/c of differences in data between 
+		 * espresso, aeropress, and the rest of the devices. 
+		 */
+		if (deviceName.equals("espresso")) {
+			log_note.setTamp(Build.VERSION.SDK_INT >= 11 ? tamp_picker.getValue() : Integer.parseInt(tamp_edit_text.getText().toString()));
+			log_note.setPre_time(Integer.parseInt(pre_label_time.toString()));
+			// if espresso storing time from timer in pre time and nothing else
+			// ? can I store this in db without setting all fields ?
+		} else {
+			//how to handle aeropress
+			log_note.setPre_time(subTimes.get(0));
+			if (subTimes.size() > 1) {
+				log_note.setBloom_time(subTimes.get(1));
+			}
+			if (subTimes.size() > 2) {
+				log_note.setBrew_time(subTimes.get(2));
+			}
+		}
+		
+		return log_note;
 	}
 
 	private String formatToCapWords(String words) {
