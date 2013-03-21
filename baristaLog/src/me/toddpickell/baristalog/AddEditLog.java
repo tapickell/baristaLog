@@ -49,27 +49,57 @@ public class AddEditLog extends Activity {
 		TextView pre_label = (TextView) findViewById(R.id.pre_label);
 		TextView bloom_label = (TextView) findViewById(R.id.bloom_label);
 		TextView brew_label = (TextView) findViewById(R.id.brew_label);
-		TextView pre_label_time = (TextView) findViewById(R.id.pre_label_time);
-		TextView bloom_label_time = (TextView) findViewById(R.id.bloom_label_time);
-		TextView brew_label_time = (TextView) findViewById(R.id.brew_label_time);
 		
+		/* <TextView
+        android:id="@+id/brew_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:textSize="18sp"
+        android:color="@android:color/black" /> */
 
+		
+		/*  more than one way to skin a cat when sh*t dont work right */
+		LinearLayout time_container = (LinearLayout) findViewById(R.id.time_container);
+		
+		TextView pre_label_time = new TextView(this);
+		TextView bloom_label_time = new TextView(this);
+		TextView brew_label_time = new TextView(this);
+	
+		pre_label_time.setTextSize(18.0F);
+		bloom_label_time.setTextSize(18.0F);
+		brew_label_time.setTextSize(18.0F);
+		pre_label_time.setPadding(0, 10, 0, 0);
+		bloom_label_time.setPadding(0, 10, 0, 0);
+		brew_label_time.setPadding(0, 10, 0, 0);
+		
+		pre_label_time.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		bloom_label_time.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		brew_label_time.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		
 		coffee_notes.setMaxLines(2);
 		// I am pretty sure this does nothing b/c it is an edittext w/ multiline and this is for textview
 		Date date = new Date();
 		java.text.DateFormat df = android.text.format.DateFormat.getDateFormat(this);
 		device_label.setText(formatToCapWords(deviceName));
 		
+		Log.d("FUCH", "SubTimes => " + subTimes.toString());
+		
 		pre_label.setText(subTitles.get(0));
-		pre_label_time.setText(subTimes.get(0));// crashes like a little bitch!!!!!
+		pre_label_time.setText(subTimes.get(0).toString());
 		bloom_label.setText(subTitles.get(1));
-		bloom_label_time.setText(subTimes.get(1));
+		bloom_label_time.setText(subTimes.get(1).toString());
 		Log.d("DEBUG_ME!", "title one: " + device_sub_title_one + " title two: " + device_sub_title_two) ;
 		if (device.getNumberLabels() > 2) {
 			brew_label.setText(subTitles.get(2));
-			brew_label_time.setText(subTimes.get(2));
+			brew_label_time.setText(subTimes.get(2).toString());
 			Log.d("DEBUG_ME!", "title three: " + device_sub_title_three) ;
-		}		
+		}	
+		
+		time_container.addView(pre_label_time);
+		time_container.addView(bloom_label_time);
+		time_container.addView(brew_label_time);
+		
 		date_label.setText(df.format(date));
 
 		LinearLayout number_pickers_container = (LinearLayout) findViewById(R.id.number_pickers_container);
