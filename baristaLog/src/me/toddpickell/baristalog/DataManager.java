@@ -36,6 +36,7 @@ public class DataManager {
 
 
 	public List<LogNote> getLogNotesByDevice(String device) throws NoDataForInputFoundException {
+		Log.d("PKL_TEST", "DataManager getLogNotesByDevice called");
 		device = device.replaceAll("\\s","_");
 		List<LogNote> lognotes;
 		

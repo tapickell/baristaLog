@@ -373,23 +373,24 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Log.d("PKL_TEST", "onResume called");
 		setStateForDevice(deviceNames.get(spinner.getSelectedItemPosition()));
 		// TODO find a better way to do this 
 	}
 	
 	@Override
 	public void onDismissScreen(Ad arg0) {
-
+		Log.d("PKL_TEST", "onDismissScreen called");
 	}
 
 	@Override
 	public void onLeaveApplication(Ad arg0) {
-
+		Log.d("PKL_TEST", "onLeaveApplication called");
 	}
 
 	@Override
 	public void onPresentScreen(Ad arg0) {
-		
+		Log.d("PKL_TEST", "onPresentScreen called");
 	}
 
 }

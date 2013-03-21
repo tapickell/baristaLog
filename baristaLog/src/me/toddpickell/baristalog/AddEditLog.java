@@ -231,7 +231,7 @@ public class AddEditLog extends Activity implements OnClickListener {
 		if (view.equals(save_log_button)) {
 			Log.d("WTF_SQL", "called in onClick from save log button");// save_log_button
 			saveLogToDB();
-
+			finish();
 		} else {
 			// if had another button
 		}

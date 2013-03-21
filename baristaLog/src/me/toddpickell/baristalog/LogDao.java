@@ -133,18 +133,18 @@ public class LogDao implements Dao<LogNote> {
 		List<LogNote> list = new ArrayList<LogNote>();
 
 		try {
-			Cursor c = db.query(LogTable.TABLE_NAME, new String[] {
+			Cursor c = db.query(/* FROM */LogTable.TABLE_NAME, new String[] {
 					BaseColumns._ID, LogColumns.DEVICE, LogColumns.NOTES,
 					LogColumns.DATE, LogColumns.RATING, LogColumns.PRE_TIME,
 					LogColumns.BLOOM_TIME, LogColumns.BREW_TIME,
 					LogColumns.TEMP, LogColumns.TAMP, LogColumns.GRIND,
 					LogColumns.BLEND },
-			/* where */LogColumns.DEVICE + " = " + device,
+			/* WHERE */LogColumns.DEVICE +"='" + device + "'",
 			/* selection args */null,
 			/* group by */null,
 			/* having */null,
 			/* order by */LogColumns.RATING);
-			Log.d("SQL_SUX", c.toString());
+			Log.d("SQL_SUX", "getAllLogsByDeviceName ( " + device + " ) db.query => " + c.toString());
 
 			if (c.moveToFirst()) {
 
