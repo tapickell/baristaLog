@@ -203,6 +203,9 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 	private void launchAddEditLogView() {
 		Intent intent = new Intent("me.toddpickell.baristalog.ADDEDITLOGVIEW");
 		intent.putExtra("device_name", device.getDevice_type());
+		if (device.getDevice_type().equals("espresso")) {
+			intent.putExtra("shot_time", total_text_timer.getText());
+		}
 		startActivity(intent);
 	}
 
@@ -353,8 +356,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 					.setText(DateUtils.formatElapsedTime((mTotalTime / 1000)
 							+ device.getTotal()));
 
-			if (((mTotalTime / 1000) + device.getTotal()) == 0
-					&& device.getCountdown()) {
+			if (((mTotalTime / 1000) + device.getTotal()) == 0 && device.getCountdown()) {
 				stopTimer();
 				// play ding.mp3
 				soundPool.play(soundMap.get(DING_SOUND_ID), 1, 1, 1, 0, 1f);

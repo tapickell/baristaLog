@@ -54,7 +54,7 @@ public class DeviceState extends Activity {
 	private void initDeviceWithName() {
 		if (deviceNames.contains(device_type)) {
 			// then device name is in list for shared preferences
-			numberLabels = device_type.equals(aero) ? 2 : 3;
+
 			device = context.getSharedPreferences(device_type, 0); // getting null pointer from here not sure why yet
 			
 			if (device.contains("pre") && device.contains("default_pre")) {
@@ -278,7 +278,7 @@ public class DeviceState extends Activity {
 		secondSub = "";
 		thirdSub = "";
 		countdown = false;
-		numberLabels = 0;
+		numberLabels = 1;
 	}
 	
 	public void resetDeviceToDefaults() {
