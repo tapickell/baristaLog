@@ -79,7 +79,8 @@ public class LogList extends ListActivity {
 
 	@Override
 	public void onListItemClick(ListView arg0, View arg1, int arg2, long arg3) {
-		Intent viewCoffeeLog = new Intent(LogList.this, ViewLog.class);
+//		Intent viewCoffeeLog = new Intent(LogList.this, ViewLog.class);
+		Intent viewCoffeeLog = new Intent("me.toddpickell.baristalog.VIEWLOG");
 		viewCoffeeLog.putExtra("device_name", deviceName);
 		viewCoffeeLog.putExtra("log_note_index", arg2);
 		startActivity(viewCoffeeLog);

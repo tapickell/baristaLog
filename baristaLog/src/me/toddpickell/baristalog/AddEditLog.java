@@ -285,6 +285,7 @@ public class AddEditLog extends Activity implements OnClickListener {
 		}
 		return returnString;
 	}
+	
 	private String formatToCapWords(String words) {
 		int space = words.indexOf(" ");
 		String returnString;

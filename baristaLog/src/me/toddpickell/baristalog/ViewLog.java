@@ -1,11 +1,15 @@
 package me.toddpickell.baristalog;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActionBar.LayoutParams;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +32,11 @@ public class ViewLog extends Activity {
 	private TextView temp_number_label;
 	private TextView grind_number_label;
 	private TextView tamp_number_label;
+	private DeviceState device;
+	private List<String> subTitles;
+	private TextView pre_label_time;
+	private TextView bloom_label_time;
+	private TextView brew_label_time;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +45,8 @@ public class ViewLog extends Activity {
 		
 		deviceName = getIntent().getStringExtra("device_name");
 		logNoteIndex = getIntent().getIntExtra("log_note_index", 0);
+		device = new DeviceState(this, deviceName);
+		subTitles = device.getSubTitles();
 		
 		dataManager = new DataManager(this);
 		lognotes = new ArrayList<LogNote>();
@@ -55,6 +66,7 @@ public class ViewLog extends Activity {
 		tamp_number_label = (TextView) findViewById(R.id.tamp_number_label);
 	}
 	
+	@SuppressLint("NewApi")
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -75,8 +87,79 @@ public class ViewLog extends Activity {
 			finish();
 		}
 		
+		device_label.setText(formatToCapWords(deviceName));
+		date_label.setText(logNote.getDate());
+		coffee_notes.setText(logNote.getNotes());
+		coffee_blend.setText(logNote.getBlend());
+
+		LinearLayout time_container = (LinearLayout) findViewById(R.id.time_container);
+
+		pre_label_time = new TextView(this);
+		bloom_label_time = new TextView(this);
+		brew_label_time = new TextView(this);
+
+		pre_label_time.setTextSize(18.0F);
+		bloom_label_time.setTextSize(18.0F);
+		brew_label_time.setTextSize(18.0F);
+		pre_label_time.setPadding(0, 10, 0, 0);
+		bloom_label_time.setPadding(0, 10, 0, 0);
+		brew_label_time.setPadding(0, 10, 0, 0);
+
+		pre_label_time.setLayoutParams(new LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		bloom_label_time.setLayoutParams(new LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		brew_label_time.setLayoutParams(new LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+		
+		// this crashes resource not found exception vv
+//		rating_number_label.setText(logNote.getRating());
+//		temp_number_label.setText(logNote.getTemp());
+//		grind_number_label.setText(logNote.getGrind());
+		
+		if (deviceName.equals("espresso")) {
+			pre_label.setText("Time");
+			tamp_label.setText("Tamp");
+			tamp_number_label.setText(logNote.getTamp());
+		} else {
+
+			if (subTitles.size() > 0) {
+				pre_label.setText(subTitles.get(0));
+				pre_label_time.setText(logNote.getPre_time());// now crashes here???
+			}
+			if (subTitles.size() > 1) {
+				bloom_label.setText(subTitles.get(1));
+				bloom_label_time.setText(logNote.getBloom_time());
+			}
+			if (subTitles.size() > 2) {
+				brew_label.setText(subTitles.get(2));
+				brew_label_time.setText(logNote.getBrew_time());
+			}
+		}
+		time_container.addView(pre_label_time);
+		time_container.addView(bloom_label_time);
+		time_container.addView(brew_label_time);
 		
 	}
 	
+	private String formatToCapWords(String words) {
+		int space = words.indexOf(" ");
+		String returnString;
+
+		if (space > 0) {
+			returnString = capWord(words.substring(0, space)) + " "
+					+ capWord(words.substring(space + 1));
+
+		} else {
+			returnString = capWord(words);
+		}
+
+		return returnString;
+	}
 	
+	@SuppressLint("DefaultLocale")
+	private String capWord(String word) {
+
+		return word.substring(0, 1).toUpperCase() + word.substring(1);
+	}
 }
