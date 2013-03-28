@@ -267,13 +267,24 @@ public class AddEditLog extends Activity implements OnClickListener {
 
 		/// !!! this is a bit ugly !!!
 		log_note.setTamp(deviceName.equals("espresso") ? Build.VERSION.SDK_INT >= 11 ? tamp_picker.getValue() : Integer.parseInt(tamp_edit_text.getText().toString()) : 0);
-		log_note.setPre_time(Integer.parseInt(pre_label_time.getText().toString()));
+		log_note.setPre_time(Integer.parseInt(removeColonFromTime(pre_label_time.getText().toString())));
 		log_note.setBloom_time(subTimes.size() > 1 ? subTimes.get(1) : 0);
 		log_note.setBrew_time(subTimes.size() > 2 ? subTimes.get(2) : 0);
 
 		return log_note;
 	}
 
+	private String removeColonFromTime(String time) {
+		int colon = time.indexOf(":");
+		String returnString;
+		
+		if (colon >= 0) {
+			returnString = time.substring(0, colon) + time.substring(colon + 1); 
+		} else {
+			returnString = time;
+		}
+		return returnString;
+	}
 	private String formatToCapWords(String words) {
 		int space = words.indexOf(" ");
 		String returnString;
