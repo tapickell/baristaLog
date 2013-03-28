@@ -5,15 +5,11 @@ import java.util.List;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -53,6 +49,9 @@ public class LogList extends ListActivity {
 			
 			lognotes.addAll(dataManager.getLogNotesByDevice(deviceName));
 			logAdapter.notifyDataSetChanged();
+			for (LogNote note : lognotes) {
+				Log.d("LOG_NOTE", note.toString());
+			}
 
 		} catch (NoDataForInputFoundException e) {
 			Toast.makeText(this, "Sorry, the list is empty for this deice.", Toast.LENGTH_LONG).show();
@@ -68,6 +67,7 @@ public class LogList extends ListActivity {
 		return true;
 	}
 
+	//???? not sure why this is here, research later
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		Intent addNewCoffeeLog = new Intent(LogList.this,
@@ -80,7 +80,8 @@ public class LogList extends ListActivity {
 	@Override
 	public void onListItemClick(ListView arg0, View arg1, int arg2, long arg3) {
 		Intent viewCoffeeLog = new Intent(LogList.this, ViewLog.class);
-		viewCoffeeLog.putExtra(ROW_ID, arg3);
+		viewCoffeeLog.putExtra("device_name", deviceName);
+		viewCoffeeLog.putExtra("log_note_index", arg2);
 		startActivity(viewCoffeeLog);
 
 	}
