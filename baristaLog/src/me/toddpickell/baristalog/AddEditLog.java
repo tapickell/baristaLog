@@ -7,6 +7,7 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -231,6 +232,8 @@ public class AddEditLog extends Activity implements OnClickListener {
 		if (view.equals(save_log_button)) {
 			Log.d("WTF_SQL", "called in onClick from save log button");// save_log_button
 			saveLogToDB();
+			Intent intent = new Intent();
+			setResult(RESULT_OK, intent);
 			finish();
 		} else {
 			// if had another button

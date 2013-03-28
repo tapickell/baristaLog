@@ -13,6 +13,7 @@ import android.media.SoundPool;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager.OnActivityResultListener;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
@@ -35,6 +36,8 @@ import com.google.ads.AdView;
 
 public class MainActivity extends Activity implements OnItemSelectedListener, OnClickListener, AdListener {
 
+	private static final int LOG_SAVED = 1;
+	private static final int ADD_LOG_ACTIVITY_REQUEST = 1;
 	private static final Integer TICK_SOUND_ID = 0;
 	private static final Integer DING_SOUND_ID = 1;
 	private static final Integer CLICK_SOUND_ID = 2;
@@ -206,7 +209,17 @@ public class MainActivity extends Activity implements OnItemSelectedListener, On
 		if (device.getDevice_type().equals("espresso")) {
 			intent.putExtra("shot_time", total_text_timer.getText());
 		}
-		startActivity(intent);
+//		startActivity(intent);
+		startActivityForResult(intent, ADD_LOG_ACTIVITY_REQUEST);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == ADD_LOG_ACTIVITY_REQUEST) {
+			if (resultCode == RESULT_OK) {
+				launchLogListView();
+			}
+		}
 	}
 
 	private void launchLogListView() {
